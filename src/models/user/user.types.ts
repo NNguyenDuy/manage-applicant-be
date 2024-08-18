@@ -4,7 +4,7 @@ export interface I_User {
   fullName?: string
   email: string
   password: string
-  role: 'admin' | 'recruiter' | 'candidate'
+  role?: 'admin' | 'recruiter' | 'candidate'
   companyId?: ObjectId
   profileId?: ObjectId
 }
