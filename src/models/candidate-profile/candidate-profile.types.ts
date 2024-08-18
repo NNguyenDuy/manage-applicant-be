@@ -6,5 +6,5 @@ export interface I_CandidateProfile {
     | '2-3 Years'
     | '3-4 Years'
     | 'Over 5 years'
-  cvUrl?: string
+  cvUrl?: string[]
 }

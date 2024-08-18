@@ -14,7 +14,7 @@ const CandidateProfileSchema = new Schema<I_CandidateProfile>({
     ],
     required: true,
   },
-  cvUrl: { type: String },
+  cvUrl: [{ type: String }],
 })
 
 export const CandidateProfileModel = mongoose.model<I_CandidateProfile>(

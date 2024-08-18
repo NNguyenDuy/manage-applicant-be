@@ -4,8 +4,7 @@ export interface I_Job {
   title: string
   description: string
   salary: number
-  location: string
+  position: string
   recruiterId: ObjectId
-  companyId: ObjectId
   applicants: ObjectId[]
 }
