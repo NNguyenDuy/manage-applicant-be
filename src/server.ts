@@ -9,7 +9,9 @@ const app: Express = express()
 async function startServer() {
   const server = new ApolloServer({
     schema,
-    context: ({ req }) => ({}),
+    context: ({ req }) => ({
+      req,
+    }),
   })
 
   await server.start()
@@ -25,7 +27,9 @@ async function startServer() {
     .catch((error) => console.error('Error connecting to MongoDB:', error))
 
   app.listen(config.port, () => {
-    console.log(`Server listening on port http://localhost:${config.port}${server.graphqlPath}`)
+    console.log(
+      `Server listening on port http://localhost:${config.port}${server.graphqlPath}`
+    )
   })
 }
 

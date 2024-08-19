@@ -10,7 +10,7 @@ export const userController = {
   getUser: async (
     email: string,
     password: string
-  ): Promise<{ id: string; email: string; password: string } | null> => {
+  ): Promise<{ _id: string; email: string; password: string } | null> => {
     const user = await UserModel.findOne({ email })
     if (!user) {
       return null

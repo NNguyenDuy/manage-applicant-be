@@ -1,8 +1,7 @@
 type User {
-  id: ID
+  _id: ID
   fullName: String
   email: String!
-  password: String!
   role: String!
   companyId: ID
   profileId: ID

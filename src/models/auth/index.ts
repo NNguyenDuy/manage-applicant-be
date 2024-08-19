@@ -1,2 +1,1 @@
-export * from './auth.model'
-export * from './auth.types'
+export * from './auth.resolver'
