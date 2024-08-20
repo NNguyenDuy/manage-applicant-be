@@ -21,22 +21,12 @@ const resolvers = mergeResolvers([
   companyResolvers,
 ])
 
-const configMiddleware = async (
-  resolve: any,
-  parent: any,
-  args: any,
-  context: any,
-  info: any
-) => {
-  await authenticate(context.req)
-  return resolve(parent, args, context, info)
-}
-
 const middleware = {
   Query: {
-    getAllUsers: configMiddleware,
+    getInfoUser: authenticate,
   },
-  Mutation: {},
+  Mutation: {
+  },
 }
 
 const schema = applyMiddleware(

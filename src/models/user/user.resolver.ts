@@ -1,3 +1,4 @@
+import { AuthenticatedRequest } from './../auth'
 import { userController } from './user.controller'
 import { I_User } from './user.types'
 
@@ -9,8 +10,17 @@ export const userResolvers = {
     getUser: async (
       _: any,
       { email, password }: { email: string; password: string }
-    ): Promise<I_User | null> => {
+    ): Promise<{ _id: string } | null> => {
       return await userController.getUser(email, password)
+    },
+    getInfoUser: async (
+      _: any,
+      __: any,
+      context: { req: AuthenticatedRequest }
+    ): Promise<I_User | null> => {
+      const { req } = context
+      const userId = req.userId as string
+      return await userController.getInfoUser(userId)
     },
   },
   Mutation: {

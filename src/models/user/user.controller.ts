@@ -10,18 +10,18 @@ export const userController = {
   getUser: async (
     email: string,
     password: string
-  ): Promise<{ _id: string; email: string; password: string } | null> => {
+  ): Promise<{ _id: string } | null> => {
     const user = await UserModel.findOne({ email })
-    if (!user) {
-      return null
-    }
+    if (!user) return null
+
     const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) {
-      return null
-    }
+    if (!isMatch) return null
+
     return user.toObject()
   },
-
+  getInfoUser: async (_id: string): Promise<I_User | null> => {
+    return await UserModel.findById(_id).select('-password')
+  },
   createUser: async (
     user: I_User
   ): Promise<{ message: string; data: I_User | null }> => {

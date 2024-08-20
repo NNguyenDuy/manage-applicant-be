@@ -1,20 +1,27 @@
+import { AuthenticatedRequest } from './../../models/auth'
 import jwt from 'jsonwebtoken'
-import { Request } from 'express'
-import { AuthenticationError } from 'apollo-server-express'
+import { GraphQLResolveInfo } from 'graphql'
 
-export const authenticate = (req: Request) => {
-  const token = req.headers.authorization || ''
-
+export const authenticate = async (
+  resolve: any,
+  parent: any,
+  args: any,
+  context: { req: AuthenticatedRequest },
+  info: GraphQLResolveInfo
+) => {
+  const token = (context.req.headers as any).authorization
   if (!token) {
-    throw new AuthenticationError('Authentication token missing')
+    throw new Error('Authentication token is missing')
   }
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY || '') as {
       userId: string
     }
-    return { userId: decoded.userId }
+    context.req.userId = decoded.userId
   } catch (error) {
-    throw new AuthenticationError('Invalid or expired token')
+    throw new Error('Invalid authentication token')
   }
+
+  return resolve(parent, args, context, info)
 }
