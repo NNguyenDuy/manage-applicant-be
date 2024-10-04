@@ -14,7 +14,7 @@ export const authResolvers = {
         { userId: user._id },
         process.env.SECRET_KEY || '',
         {
-          expiresIn: '24h',
+          expiresIn: '3d',
         }
       )
       return { token }
