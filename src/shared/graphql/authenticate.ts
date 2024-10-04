@@ -20,6 +20,9 @@ export const authenticate = async (
     }
     context.req.userId = decoded.userId
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      throw new Error('Token has expired')
+    }
     throw new Error('Invalid authentication token')
   }
 
