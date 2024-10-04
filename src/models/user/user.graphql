@@ -5,7 +5,10 @@ type User {
   role: String!
   companyId: ID
   profileId: ID
+  candidateProfile: CandidateProfile
+  company: Company
 }
+
 
 type UserResponse {
   message: String!

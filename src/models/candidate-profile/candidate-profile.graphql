@@ -1,0 +1,33 @@
+type CandidateProfile {
+  _id: ID!
+  skills: [String!]!
+  experience: String!
+  cvUrl: [String]
+}
+
+type CandidateProfileResponse {
+  message: String!
+  data: CandidateProfile
+}
+
+type Query {
+  getAllCandidateProfiles: [CandidateProfile]
+  getCandidateProfileById(id: ID!): CandidateProfile
+}
+
+type Mutation {
+  createCandidateProfile(
+    skills: [String!]!
+    experience: String!
+    cvUrl: [String]
+  ): CandidateProfileResponse!
+
+  updateCandidateProfile(
+    id: ID!
+    skills: [String]
+    experience: String
+    cvUrl: [String]
+  ): CandidateProfile
+
+  deleteCandidateProfile(id: ID!): CandidateProfile
+}
