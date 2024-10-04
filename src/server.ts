@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express'
 import schema from './shared/graphql/schema'
 import config from './config'
 import { seedData } from './seed'
+import { run } from './models/AI/evaluate-cv'
 
 const app: Express = express()
 
@@ -22,15 +23,17 @@ async function startServer() {
     res.send('Server on')
   })
 
-  try {
-    await mongoose.connect(config.mongoURL)
-    console.log('Connected to MongoDB')
+  run()
 
-    await checkAndSeedDatabase()
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error)
-    process.exit(1)
-  }
+  // try {
+  //   await mongoose.connect(config.mongoURL)
+  //   console.log('Connected to MongoDB')
+
+  //   await checkAndSeedDatabase()
+  // } catch (error) {
+  //   console.error('Error connecting to MongoDB:', error)
+  //   process.exit(1)
+  // }
 
   app.listen(config.port, () => {
     console.log(
