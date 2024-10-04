@@ -1,0 +1,22 @@
+type Company {
+  _id: ID!
+  name: String!
+  address: String
+  description: String
+}
+
+type CompanyResponse {
+  message: String!
+  data: Company
+}
+
+type Query {
+  getAllCompanies: [Company]
+  getCompany(id: ID!): Company
+}
+
+type Mutation {
+  createCompany(name: String!, address: String, description: String): CompanyResponse!
+  updateCompany(id: ID!, name: String, address: String, description: String): CompanyResponse!
+  deleteCompany(id: ID!): CompanyResponse!
+}

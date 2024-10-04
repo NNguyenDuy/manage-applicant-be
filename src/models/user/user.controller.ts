@@ -1,4 +1,6 @@
 import { I_User } from './user.types'
+import { CandidateProfileModel } from '../candidate-profile'
+import { CompanyModel } from '../company'
 import { UserModel } from './user.model'
 import bcrypt from 'bcrypt'
 
@@ -20,7 +22,33 @@ export const userController = {
     return user.toObject()
   },
   getInfoUser: async (_id: string): Promise<I_User | null> => {
-    return await UserModel.findById(_id).select('-password')
+    const user = await UserModel.findById(_id).select('-password')
+
+    if (!user) {
+      return null
+    }
+
+    let candidateProfile: I_User['candidateProfile'] = undefined
+    if (user.profileId) {
+      const profile = await CandidateProfileModel.findById(user.profileId)
+      if (profile) {
+        candidateProfile = profile.toObject()
+      }
+    }
+
+    let company: I_User['company'] = undefined
+    if (user.companyId) {
+      const companyDoc = await CompanyModel.findById(user.companyId)
+      if (companyDoc) {
+        company = companyDoc.toObject()
+      }
+    }
+
+    return {
+      ...user.toObject(),
+      candidateProfile,
+      company,
+    }
   },
   createUser: async (
     user: I_User
