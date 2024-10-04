@@ -20,11 +20,12 @@ async function formatResult(fileCV: string, jd: string): Promise<string> {
   const cvText = await pdfToText(fileCV)
   const jobDetail = jd
   return `
-  - Dựa vào thông tin CV mà tôi cung cấp và những yêu cầu của job detail để đưa ra đánh giá với 3 mức độ:
+  - Dựa vào thông tin CV mà tôi cung cấp và những yêu cầu của job detail để đưa ra đánh giá với 4 mức độ:
   - Đây là kết quả mà tôi muốn bạn trả về:
     + Ưu tiên (CV xuất sắc, đáp ứng hoặc vượt quá hầu hết các yêu cầu)
     + Tiềm năng (CV tốt, đáp ứng một số yêu cầu quan trọng)
-    + Ít tiềm năng (CV chưa đáp ứng đủ các yêu cầu cần thiết)
+    + Phù hợp (CV có các kĩ năng ổn và có thể học trong quá trình làm việc)
+    + Chưa phù hợp (CV chưa đáp ứng đủ các yêu cầu cần thiết)
   ->  Trả lời ngắn gọn, chỉ cần trả về một trong ba mức đánh giá trên.
 
   - Thông tin CV:
