@@ -47,6 +47,12 @@ export const jobResolvers = {
         applicants
       )
     },
+    applyForJob: async (
+      _: any,
+      { jobId, userId, cvUrl }: { jobId: string; userId: string; cvUrl: string }
+    ): Promise<{ message: string; data: I_Job | null }> => {
+      return await jobController.applyForJob(jobId, { userId, cvUrl })
+    },
     updateJob: async (
       _: any,
       {
