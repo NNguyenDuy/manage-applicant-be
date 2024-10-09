@@ -1,0 +1,52 @@
+type Applicant {
+  userId: ID!
+  cvUrl: String!
+}
+
+type Job {
+  _id: ID!
+  title: String!
+  description: String!
+  salary: Float!
+  position: String!
+  recruiterId: ID!
+  applicants: [Applicant!]!
+}
+
+type JobResponse {
+  message: String!
+  data: Job
+}
+
+type Query {
+  getAllJobs: [Job]
+  getJobById(id: ID!): Job
+  getAllJobsByRecruiterId(recruiterId: ID!): [Job]
+}
+
+type Mutation {
+  createJob(
+    title: String!
+    description: String!
+    salary: Float!
+    position: String!
+    recruiterId: ID!
+    applicants: [ApplicantInput]
+  ): JobResponse!
+
+  updateJob(
+    id: ID!
+    title: String
+    description: String
+    salary: Float
+    position: String
+    applicants: [ApplicantInput]
+  ): Job
+
+  deleteJob(id: ID!): Job
+}
+
+input ApplicantInput {
+  userId: ID!
+  cvUrl: String!
+}
