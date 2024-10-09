@@ -6,5 +6,5 @@ export interface I_Job {
   salary: number
   position: string
   recruiterId: ObjectId
-  applicants: ObjectId[]
+  applicants?: { userId: ObjectId; cvUrl: string }[]
 }

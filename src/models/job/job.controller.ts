@@ -14,6 +14,37 @@ export const jobController = {
     return await JobModel.find({ recruiterId })
   },
 
+  applyForJob: async (
+    jobId: string,
+    applicant: { userId: string; cvUrl: string }
+  ): Promise<{ message: string; data: I_Job | null }> => {
+    const job = await JobModel.findById(jobId)
+
+    if (!job) {
+      return { message: 'Job not found', data: null }
+    }
+
+    const hasApplied = job.applicants?.some(
+      (app) => app.userId.toString() === applicant.userId
+    )
+
+    if (hasApplied) {
+      return { message: 'Bạn đã ứng tuyển công việc này', data: null }
+    }
+
+    const updatedJob = await JobModel.findByIdAndUpdate(
+      jobId,
+      { $push: { applicants: applicant } },
+      { new: true }
+    )
+
+    if (updatedJob) {
+      return { message: 'Ứng tuyển công việc thành công!', data: updatedJob }
+    } else {
+      return { message: 'Ứng tuyển công việc thất bại!', data: null }
+    }
+  },
+
   createJob: async (
     title: string,
     description: string,
