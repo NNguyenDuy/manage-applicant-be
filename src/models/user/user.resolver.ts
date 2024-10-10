@@ -1,54 +1,47 @@
-import { AuthenticatedRequest } from './../auth'
-import { userController } from './user.controller'
-import { I_User } from './user.types'
+import { userController } from './user.controller';
+import { E_Role, I_User } from './user.types';
 
 export const userResolvers = {
   Query: {
     getAllUsers: async (): Promise<I_User[]> => {
-      return await userController.getAllUsers()
+      return await userController.getAllUsers();
     },
     getUser: async (
       _: any,
       { email, password }: { email: string; password: string }
-    ): Promise<{ _id: string } | null> => {
-      return await userController.getUser(email, password)
+    ): Promise<I_User | null> => {
+      return await userController.getUser(email, password);
     },
     getInfoUser: async (
       _: any,
       __: any,
-      context: { req: AuthenticatedRequest }
+      context: { req: { userId: string } }
     ): Promise<I_User | null> => {
-      const { req } = context
-      const userId = req.userId as string
-      return await userController.getInfoUser(userId)
+      const { userId } = context.req;
+      return await userController.getInfoUser(userId);
     },
   },
   Mutation: {
     createUser: async (
       _: any,
       {
+        fullName,
         email,
         password,
         role,
-      }: { email: string; password: string; role: string }
-    ): Promise<{ message: string; data: I_User | null }> => {
-      const validRoles: ('admin' | 'recruiter' | 'candidate')[] = [
-        'admin',
-        'recruiter',
-        'candidate',
-      ]
-      if (!validRoles.includes(role as 'admin' | 'recruiter' | 'candidate')) {
-        return {
-          message: 'Invalid role provided.',
-          data: null,
-        }
+      }: {
+        fullName?: string;
+        email: string;
+        password: string;
+        role: E_Role;
       }
-      const result = await userController.createUser({
+    ): Promise<{ message: string; data: I_User | null }> => {
+      return await userController.createUser({
+        fullName,
         email,
         password,
-        role: role as 'admin' | 'recruiter' | 'candidate',
-      })
-      return result
+        role,
+      });
     },
     updateUser: async (
       _: any,
@@ -57,24 +50,27 @@ export const userResolvers = {
         fullName,
         email,
         password,
+        role,
       }: {
-        id: string
-        fullName?: string
-        email?: string
-        password?: string
+        id: string;
+        fullName?: string;
+        email?: string;
+        password?: string;
+        role?: E_Role;
       }
     ): Promise<I_User | null> => {
       return await userController.updateUser(id, {
         fullName,
         email,
         password,
-      })
+        role,
+      });
     },
     deleteUser: async (
       _: any,
       { id }: { id: string }
     ): Promise<I_User | null> => {
-      return await userController.deleteUser(id)
+      return await userController.deleteUser(id);
     },
   },
-}
+};

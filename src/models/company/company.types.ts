@@ -1,5 +1,8 @@
+import mongoose from 'mongoose';
+
 export interface I_Company {
-  name: string
-  address: string
-  description: string
+  name: string;
+  ownerId: mongoose.Types.ObjectId;
+  locationId?: mongoose.Types.ObjectId;
+  jobs?: mongoose.Types.ObjectId[];
 }

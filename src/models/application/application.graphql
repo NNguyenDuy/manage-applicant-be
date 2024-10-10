@@ -1,0 +1,32 @@
+enum ApplicationStatus {
+  submitted
+  under_review
+  accepted
+  rejected
+}
+
+type Application {
+  _id: ID!
+  jobId: ID!
+  candidateProfileId: ID!
+  status: ApplicationStatus!
+  appliedAt: String!
+}
+
+type ApplicationResponse {
+  message: String!
+  data: Application
+}
+
+type Query {
+  getAllApplications: [Application!]!
+  getApplication(id: ID!): Application
+}
+
+type Mutation {
+  createApplication(jobId: ID!, candidateProfileId: ID!): ApplicationResponse!
+
+  updateApplicationStatus(id: ID!, status: ApplicationStatus!): Application
+
+  deleteApplication(id: ID!): Application
+}

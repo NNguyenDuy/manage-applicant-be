@@ -1,90 +1,58 @@
-import { jobController } from './job.controller'
-import { I_Job } from './job.types'
+import { jobController } from './job.controller';
+import { I_Job } from './job.types';
+import mongoose from 'mongoose';
 
 export const jobResolvers = {
   Query: {
     getAllJobs: async (): Promise<I_Job[]> => {
-      return await jobController.getAllJobs()
+      return await jobController.getAllJobs();
     },
-    getJobById: async (
-      _: any,
-      { id }: { id: string }
-    ): Promise<I_Job | null> => {
-      return await jobController.getJobById(id)
-    },
-    getAllJobsByRecruiterId: async (
-      _: any,
-      { recruiterId }: { recruiterId: string }
-    ): Promise<I_Job[]> => {
-      return await jobController.getAllJobsByRecruiterId(recruiterId)
+    getJob: async (_: any, { id }: { id: string }): Promise<I_Job | null> => {
+      return await jobController.getJob(id);
     },
   },
   Mutation: {
     createJob: async (
       _: any,
-      {
-        title,
-        description,
-        salary,
-        position,
-        recruiterId,
-        applicants,
-      }: {
-        title: string
-        description: string
-        salary: number
-        position: string
-        recruiterId: string
-        applicants?: { userId: string; cvUrl: string }[]
-      }
-    ): Promise<{ message: string; data: I_Job }> => {
-      return await jobController.createJob(
-        title,
-        description,
-        salary,
-        position,
-        recruiterId,
-        applicants
-      )
-    },
-    applyForJob: async (
-      _: any,
-      { jobId, userId, cvUrl }: { jobId: string; userId: string; cvUrl: string }
+      { title, description, companyId, jobTypeId, categoryIds, locationId }:
+        { title: string; description: string; companyId: string; jobTypeId: string; categoryIds: string[]; locationId: string }
     ): Promise<{ message: string; data: I_Job | null }> => {
-      return await jobController.applyForJob(jobId, { userId, cvUrl })
+      // Chuyển đổi các trường từ string sang mongoose.Types.ObjectId
+      const objectIdCompanyId = new mongoose.Types.ObjectId(companyId);
+      const objectIdJobTypeId = new mongoose.Types.ObjectId(jobTypeId);
+      const objectIdCategoryIds = categoryIds.map(id => new mongoose.Types.ObjectId(id));
+      const objectIdLocationId = new mongoose.Types.ObjectId(locationId);
+
+      return await jobController.createJob({
+        title,
+        description,
+        companyId: objectIdCompanyId,
+        jobTypeId: objectIdJobTypeId,
+        categoryIds: objectIdCategoryIds,
+        locationId: objectIdLocationId,
+      });
     },
     updateJob: async (
       _: any,
-      {
-        id,
-        title,
-        description,
-        salary,
-        position,
-        applicants,
-      }: {
-        id: string
-        title?: string
-        description?: string
-        salary?: number
-        position?: string
-        applicants?: { userId: string; cvUrl: string }[]
-      }
+      { id, title, description, companyId, jobTypeId, categoryIds, locationId }:
+        { id: string; title?: string; description?: string; companyId?: string; jobTypeId?: string; categoryIds?: string[]; locationId?: string }
     ): Promise<I_Job | null> => {
-      return await jobController.updateJob(
-        id,
+      const objectIdCompanyId = companyId ? new mongoose.Types.ObjectId(companyId) : undefined;
+      const objectIdJobTypeId = jobTypeId ? new mongoose.Types.ObjectId(jobTypeId) : undefined;
+      const objectIdCategoryIds = categoryIds ? categoryIds.map(id => new mongoose.Types.ObjectId(id)) : undefined;
+      const objectIdLocationId = locationId ? new mongoose.Types.ObjectId(locationId) : undefined;
+
+      return await jobController.updateJob(id, {
         title,
         description,
-        salary,
-        position,
-        applicants
-      )
+        companyId: objectIdCompanyId,
+        jobTypeId: objectIdJobTypeId,
+        categoryIds: objectIdCategoryIds,
+        locationId: objectIdLocationId,
+      });
     },
-    deleteJob: async (
-      _: any,
-      { id }: { id: string }
-    ): Promise<I_Job | null> => {
-      return await jobController.deleteJob(id)
+    deleteJob: async (_: any, { id }: { id: string }): Promise<I_Job | null> => {
+      return await jobController.deleteJob(id);
     },
   },
-}
+};

@@ -1,13 +1,17 @@
 import { I_Company } from './../company/company.types'
 import { I_CandidateProfile } from './../candidate-profile/candidate-profile.types'
-import { ObjectId } from 'mongoose'
+
+export enum E_Role {
+  ADMIN = 'admin',
+  RECRUITER = 'recruiter',
+  CANDIDATE = 'candidate',
+}
+
 export interface I_User {
   fullName?: string
   email: string
   password: string
-  role?: 'admin' | 'recruiter' | 'candidate'
-  companyId?: ObjectId
-  profileId?: ObjectId
+  role?: E_Role
   candidateProfile?: I_CandidateProfile
   company?: I_Company
 }
