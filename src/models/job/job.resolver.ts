@@ -1,5 +1,8 @@
 import { jobController } from './job.controller';
 import { I_Job } from './job.types';
+import { LocationModel } from '../location/location.model';
+import { CompanyModel } from '../company/company.model';
+import { JobTypeModel } from '../job-type/job-type.model';
 import mongoose from 'mongoose';
 
 export const jobResolvers = {
@@ -11,13 +14,23 @@ export const jobResolvers = {
       return await jobController.getJob(id);
     },
   },
+  Job: {
+    jobType: async (parent: I_Job) => {
+      return await JobTypeModel.findById(parent.jobTypeId); // Populate JobType
+    },
+    location: async (parent: I_Job) => {
+      return await LocationModel.findById(parent.locationId); // Populate Location
+    },
+    company: async (parent: I_Job) => {
+      return await CompanyModel.findById(parent.companyId); // Populate Company
+    }
+  },
   Mutation: {
     createJob: async (
       _: any,
       { title, description, companyId, jobTypeId, categoryIds, locationId }:
         { title: string; description: string; companyId: string; jobTypeId: string; categoryIds: string[]; locationId: string }
     ): Promise<{ message: string; data: I_Job | null }> => {
-      // Chuyển đổi các trường từ string sang mongoose.Types.ObjectId
       const objectIdCompanyId = new mongoose.Types.ObjectId(companyId);
       const objectIdJobTypeId = new mongoose.Types.ObjectId(jobTypeId);
       const objectIdCategoryIds = categoryIds.map(id => new mongoose.Types.ObjectId(id));

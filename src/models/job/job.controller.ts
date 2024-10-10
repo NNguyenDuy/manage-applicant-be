@@ -3,11 +3,15 @@ import { JobModel } from './job.model';
 
 export const jobController = {
   getAllJobs: async (): Promise<I_Job[]> => {
-    return await JobModel.find().populate('companyId jobTypeId categoryIds locationId candidates').exec();
+    return await JobModel.find()
+      .populate('companyId jobTypeId categoryIds locationId candidates') // Populate JobType, Location, Company
+      .exec();
   },
 
   getJob: async (id: string): Promise<I_Job | null> => {
-    return await JobModel.findById(id).populate('companyId jobTypeId categoryIds locationId candidates').exec();
+    return await JobModel.findById(id)
+      .populate('companyId jobTypeId categoryIds locationId candidates') // Populate JobType, Location, Company
+      .exec();
   },
 
   createJob: async (
