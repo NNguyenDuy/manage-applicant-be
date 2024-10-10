@@ -1,0 +1,33 @@
+type Location {
+  _id: ID!
+  address: String!
+  city: String!
+  country: String!
+}
+
+type LocationResponse {
+  message: String!
+  data: Location
+}
+
+type Query {
+  getAllLocations: [Location!]!
+  getLocation(id: ID!): Location
+}
+
+type Mutation {
+  createLocation(
+    address: String!
+    city: String!
+    country: String!
+  ): LocationResponse!
+
+  updateLocation(
+    id: ID!
+    address: String
+    city: String
+    country: String
+  ): Location
+
+  deleteLocation(id: ID!): Location
+}

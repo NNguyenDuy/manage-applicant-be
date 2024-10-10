@@ -1,18 +1,16 @@
-import { I_Job } from './job.types'
-import mongoose, { Schema } from 'mongoose'
+import { Schema, model, Document } from 'mongoose';
+import { I_Job } from './job.types';
 
-const JobSchema = new Schema<I_Job>({
+export interface IJobDocument extends I_Job, Document { }
+
+const JobSchema = new Schema<IJobDocument>({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  salary: { type: Number, required: true },
-  position: { type: String, required: true },
-  recruiterId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  applicants: [
-    {
-      userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-      cvUrl: { type: String, required: true },
-    },
-  ],
-})
+  companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
+  jobTypeId: { type: Schema.Types.ObjectId, ref: 'JobType', required: true },
+  categoryIds: [{ type: Schema.Types.ObjectId, ref: 'JobCategory' }],
+  locationId: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
+  candidates: [{ type: Schema.Types.ObjectId, ref: 'CandidateProfile' }],
+});
 
-export const JobModel = mongoose.model<I_Job>('Job', JobSchema)
+export const JobModel = model<IJobDocument>('Job', JobSchema);

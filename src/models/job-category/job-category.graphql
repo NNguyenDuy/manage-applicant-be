@@ -1,0 +1,20 @@
+type JobCategory {
+  _id: ID!
+  name: String!
+}
+
+type JobCategoryResponse {
+  message: String!
+  data: JobCategory
+}
+
+type Query {
+  getAllJobCategories: [JobCategory!]!
+  getJobCategory(id: ID!): JobCategory
+}
+
+type Mutation {
+  createJobCategory(name: String!): JobCategoryResponse!
+  updateJobCategory(id: ID!, name: String!): JobCategory
+  deleteJobCategory(id: ID!): JobCategory
+}

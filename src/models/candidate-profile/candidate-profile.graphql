@@ -1,8 +1,18 @@
+type Skill {
+  name: String!
+  experience: Int!
+}
+
+type Resume {
+  cvLinks: [String!]!
+  skills: [Skill!]!
+}
+
 type CandidateProfile {
   _id: ID!
-  skills: [String!]!
-  experience: String!
-  cvUrl: [String]
+  userId: ID!
+  resume: Resume!
+  applications: [Application!]
 }
 
 type CandidateProfileResponse {
@@ -11,23 +21,27 @@ type CandidateProfileResponse {
 }
 
 type Query {
-  getAllCandidateProfiles: [CandidateProfile]
-  getCandidateProfileById(id: ID!): CandidateProfile
+  getAllCandidateProfiles: [CandidateProfile!]!
+  getCandidateProfile(id: ID!): CandidateProfile
 }
 
 type Mutation {
   createCandidateProfile(
-    skills: [String!]!
-    experience: String!
-    cvUrl: [String]
+    userId: ID!
+    resume: ResumeInput!
   ): CandidateProfileResponse!
 
-  updateCandidateProfile(
-    id: ID!
-    skills: [String]
-    experience: String
-    cvUrl: [String]
-  ): CandidateProfile
+  updateCandidateProfile(id: ID!, resume: ResumeInput): CandidateProfile
 
   deleteCandidateProfile(id: ID!): CandidateProfile
+}
+
+input SkillInput {
+  name: String!
+  experience: Int!
+}
+
+input ResumeInput {
+  cvLinks: [String!]!
+  skills: [SkillInput!]!
 }

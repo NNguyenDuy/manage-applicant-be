@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken'
-import { userController } from './../user'
+import jwt from 'jsonwebtoken';
+import { userController } from './../user';
+import { IUserDocument } from '../user/user.model';
 
 export const authResolvers = {
   Mutation: {
@@ -7,8 +8,8 @@ export const authResolvers = {
       _: any,
       { email, password }: { email: string; password: string }
     ): Promise<{ token: string } | null> => {
-      const user = await userController.getUser(email, password)
-      if (!user) return null
+      const user: IUserDocument | null = await userController.getUser(email, password); // Đảm bảo kiểu trả về là IUserDocument
+      if (!user) return null;
 
       const token = jwt.sign(
         { userId: user._id },
@@ -16,8 +17,8 @@ export const authResolvers = {
         {
           expiresIn: '3d',
         }
-      )
-      return { token }
+      );
+      return { token };
     },
   },
-}
+};

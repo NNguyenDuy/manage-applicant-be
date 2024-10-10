@@ -1,14 +1,17 @@
+enum E_Role {
+  admin
+  recruiter
+  candidate
+}
+
 type User {
-  _id: ID
+  _id: ID!
   fullName: String
   email: String!
-  role: String!
-  companyId: ID
-  profileId: ID
+  role: E_Role!
   candidateProfile: CandidateProfile
   company: Company
 }
-
 
 type UserResponse {
   message: String!
@@ -16,7 +19,7 @@ type UserResponse {
 }
 
 type Query {
-  getAllUsers: [User]
+  getAllUsers: [User!]!
   getUser(email: String!, password: String!): User
   getInfoUser: User
 }
@@ -26,9 +29,9 @@ type Mutation {
     fullName: String
     email: String!
     password: String!
-    role: String!
-    companyId: ID
-    profileId: ID
+    role: E_Role!
+    candidateProfile: ID
+    company: ID
   ): UserResponse!
 
   updateUser(
@@ -36,9 +39,9 @@ type Mutation {
     fullName: String
     email: String
     password: String
-    role: String
-    companyId: ID
-    profileId: ID
+    role: E_Role
+    candidateProfile: ID
+    company: ID
   ): User
 
   deleteUser(id: ID!): User

@@ -1,0 +1,22 @@
+type JobType {
+  _id: ID!
+  type: String!
+}
+
+type JobTypeResponse {
+  message: String!
+  data: JobType
+}
+
+type Query {
+  getAllJobTypes: [JobType!]!
+  getJobType(id: ID!): JobType
+}
+
+type Mutation {
+  createJobType(type: String!): JobTypeResponse!
+
+  updateJobType(id: ID!, type: String!): JobType
+
+  deleteJobType(id: ID!): JobType
+}
