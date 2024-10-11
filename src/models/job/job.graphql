@@ -1,10 +1,11 @@
 type Job {
   _id: ID!
-  title: String!
-  description: String!
-  jobType: JobType! # Thay đổi từ jobTypeId: ID! thành jobType: JobType!
-  location: Location! # Thay đổi từ locationId: ID! thành location: Location!
-  company: Company!
+  title: String
+  description: String
+  jobType: JobType
+  location: Location
+  companyId: String
+  company: Company
   categoryIds: [JobCategory!]
   candidates: [CandidateProfile!]
 }

@@ -8,8 +8,8 @@ const ApplicationSchema = new Schema<IApplicationDocument>({
   candidateProfileId: { type: Schema.Types.ObjectId, ref: 'CandidateProfile', required: true },
   status: {
     type: String,
-    enum: Object.values(E_ApplicationStatus), // Sử dụng giá trị từ enum E_ApplicationStatus
-    default: E_ApplicationStatus.SUBMITTED // Mặc định là 'submitted'
+    enum: Object.values(E_ApplicationStatus),
+    default: E_ApplicationStatus.SUBMITTED
   },
   appliedAt: { type: Date, default: Date.now },
 });
