@@ -4,6 +4,7 @@ type Company {
   ownerId: ID!
   locationId: ID
   jobs: [Job!]
+  location: Location
 }
 
 type CompanyResponse {

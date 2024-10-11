@@ -2,6 +2,7 @@ import { companyController } from './company.controller'
 import { I_Company } from './company.types'
 import { I_Job, JobModel } from '../job'
 import mongoose from 'mongoose'
+import { LocationModel } from '../location'
 
 export const companyResolvers = {
   Query: {
@@ -18,6 +19,9 @@ export const companyResolvers = {
   Company: {
     jobs: async (parent: I_Job) => {
       return await JobModel.find({ companyId: parent.companyId })
+    },
+    location: async (parent: I_Company) => {
+      return await LocationModel.findById(parent.locationId)
     },
   },
   Mutation: {
