@@ -42,6 +42,9 @@ export const userController = {
       company: company?.toObject(),
     }
   },
+  getUserByEmail: async (email: string): Promise<IUserDocument | null> => {
+    return await UserModel.findOne({ email })
+  },
   createUser: async (
     user: I_User
   ): Promise<{ message: string; data: I_User | null }> => {

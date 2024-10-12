@@ -1,8 +1,25 @@
+input CompanyInput {
+  name: String!
+  location: LocationInput
+}
+
+input LocationInput {
+  address: String!
+  city: String!
+  country: String!
+}
+
 type AuthPayload {
   token: String!
 }
 
 type Mutation {
   login(email: String!, password: String!): AuthPayload
-  register(email: String!, password: String!): AuthPayload
+  register(
+    email: String!
+    password: String!
+    role: String!
+    fullName: String
+    company: CompanyInput
+  ): AuthPayload
 }
