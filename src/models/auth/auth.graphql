@@ -19,6 +19,7 @@ type Mutation {
     email: String!
     password: String!
     role: String!
+    fullName: String
     company: CompanyInput
   ): AuthPayload
 }

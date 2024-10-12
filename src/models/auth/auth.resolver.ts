@@ -32,10 +32,12 @@ export const authResolvers = {
         email,
         password,
         role,
+        fullName,
         company,
       }: {
         email: string
         password: string
+        fullName: string
         role: E_Role
         company?: I_CompanyInput
       }
@@ -48,7 +50,7 @@ export const authResolvers = {
       let user: IUserDocument
 
       if (role === E_Role.CANDIDATE) {
-        user = new UserModel({ email, password, role })
+        user = new UserModel({ email, password, fullName, role })
         await user.save()
       } else if (role === E_Role.RECRUITER && company) {
         let location: ILocationDocument | undefined
@@ -59,7 +61,7 @@ export const authResolvers = {
           )) as ILocationDocument
         }
 
-        user = new UserModel({ email, password, role })
+        user = new UserModel({ email, password, fullName, role })
         await user.save()
 
         const newCompany = (await CompanyModel.create({
