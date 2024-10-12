@@ -8,7 +8,10 @@ import { authResolvers } from './../../models/auth'
 import { jobResolvers } from '../../models/job'
 import { companyResolvers } from '../../models/company'
 import { authenticate } from './authenticate'
-
+import { jobTypeResolvers } from '../../models/job-type'
+import { locationResolvers } from '../../models/location'
+import { jobCategoryResolvers } from '../../models/job-category'
+import { applicationResolvers } from '../../models/application'
 const typesArray = loadFilesSync('src/models/**/*.graphql')
 
 const typeDefs = mergeTypeDefs(typesArray)
@@ -19,14 +22,17 @@ const resolvers = mergeResolvers([
   candidateProfileResolvers,
   jobResolvers,
   companyResolvers,
+  jobTypeResolvers,
+  locationResolvers,
+  jobCategoryResolvers,
+  applicationResolvers,
 ])
 
 const middleware = {
   Query: {
     getInfoUser: authenticate,
   },
-  Mutation: {
-  },
+  Mutation: {},
 }
 
 const schema = applyMiddleware(
