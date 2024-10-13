@@ -4,6 +4,7 @@ import { LocationModel } from '../location/location.model'
 import { CompanyModel } from '../company/company.model'
 import { JobTypeModel } from '../job-type/job-type.model'
 import mongoose from 'mongoose'
+import { get } from 'http'
 
 export const jobResolvers = {
   Query: {
@@ -19,7 +20,14 @@ export const jobResolvers = {
     ): Promise<I_Job[]> => {
       return await jobController.getJobsByCompanyId(companyId)
     },
+    getJobsWithFilters: async (
+      _: any,
+      { Jtitle, Jlocation, JCategory }: { Jtitle: string; Jlocation: string; JCategory: string }
+    ): Promise<I_Job[]> => {
+      // Gọi controller để lấy kết quả
+      return await jobController.getJobsWithFilters(Jtitle, Jlocation, JCategory);
   },
+},
   Job: {
     jobType: async (parent: I_Job) => {
       return await JobTypeModel.findById(parent.jobTypeId)

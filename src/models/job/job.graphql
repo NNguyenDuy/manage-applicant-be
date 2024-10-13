@@ -18,6 +18,7 @@ type JobResponse {
 type Query {
   getAllJobs: [Job!]!
   getJob(id: ID!): Job
+  getJobsWithFilters(Jtitle: String, Jlocation:String, JCategory:String): [Job!]!
 }
 
 type Mutation {
