@@ -48,10 +48,6 @@ export const userController = {
     id: string,
     user: Partial<I_User>
   ): Promise<I_User | null> => {
-    if (user.password) {
-      const salt = await bcrypt.genSalt(10)
-      user.password = await bcrypt.hash(user.password, salt)
-    }
     return await UserModel.findByIdAndUpdate(id, user, { new: true }).select(
       '-password'
     )

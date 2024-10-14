@@ -36,8 +36,10 @@ export const candidateProfileController = {
     id: string,
     profileData: Partial<I_CandidateProfile>
   ): Promise<ICandidateProfileDocument | null> => {
-    return await CandidateProfileModel.findByIdAndUpdate(id, profileData, {
-      new: true,
-    })
+    return await CandidateProfileModel.findByIdAndUpdate(
+      id,
+      { resume: profileData },
+      { new: true }
+    )
   },
 }
