@@ -1,3 +1,5 @@
+import { I_Job } from '../job'
+import { jobController } from '../job/job.controller'
 import { applicationController } from './application.controller'
 import { I_Application } from './application.types'
 
@@ -11,6 +13,20 @@ export const applicationResolvers = {
       { id }: { id: string }
     ): Promise<I_Application | null> => {
       return await applicationController.getApplicationById(id)
+    },
+    getApplicationByCandidate: async (
+      _: any,
+      { candidateProfileId }: { candidateProfileId: string }
+    ): Promise<I_Application[] | null> => {
+      return await applicationController.getApplicationByCandidate(
+        candidateProfileId
+      )
+    },
+  },
+  Application: {
+    job: async (parent: I_Application): Promise<I_Job | null> => {
+      if (!parent.jobId) return null
+      return await jobController.getJobById(parent.jobId.toString())
     },
   },
   Mutation: {

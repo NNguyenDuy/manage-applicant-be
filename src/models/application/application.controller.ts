@@ -6,6 +6,12 @@ export const applicationController = {
     return await ApplicationModel.find({ isDel: false })
   },
 
+  getApplicationByCandidate: async (
+    candidateProfileId: string
+  ): Promise<IApplicationDocument[] | null> => {
+    return await ApplicationModel.find({ candidateProfileId, isDel: false })
+  },
+
   getApplicationById: async (
     id: string
   ): Promise<IApplicationDocument | null> => {

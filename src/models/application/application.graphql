@@ -13,11 +13,13 @@ type Application {
   status: E_ApplicationStatus!
   appliedAt: Date!
   isDel: Boolean!
+  job: Job!
 }
 
 type Query {
   getAllApplications: [Application!]!
   getApplicationById(id: ID!): Application
+  getApplicationByCandidate(candidateProfileId: ID!): [Application!]!
 }
 
 type Mutation {
