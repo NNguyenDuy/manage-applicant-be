@@ -15,9 +15,7 @@ export const authResolvers = {
         email,
         password
       )
-      if (!user) {
-        throw new Error('Email hoặc mật khẩu không đúng.')
-      }
+      if (!user) return null
 
       const token = jwt.sign(
         { userId: user._id },
