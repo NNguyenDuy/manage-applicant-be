@@ -1,27 +1,31 @@
+scalar Date
+
 type Company {
-  _id: ID!
+  id: ID!
   name: String!
-  ownerId: ID!
+  description: String
+  size: Int
+  field: String
   locationId: ID
-  jobs: [Job!]
+  idDel: Boolean!
   location: Location
 }
 
-type CompanyResponse {
-  message: String!
-  data: Company
+input CompanyInput {
+  name: String!
+  description: String
+  size: Int
+  field: String
+  locationId: ID
 }
 
 type Query {
+  getCompanyById(companyId: ID!): Company
   getAllCompanies: [Company!]!
-  getCompany(id: ID!): Company
-  getJobsByCompanyId(companyId: ID!): [Job]
 }
 
 type Mutation {
-  createCompany(name: String!, ownerId: ID!, locationId: ID): CompanyResponse!
-
-  updateCompany(id: ID!, name: String, locationId: ID): Company
-
-  deleteCompany(id: ID!): Company
+  createCompany(companyData: CompanyInput!): Company!
+  updateCompany(companyId: ID!, companyData: CompanyInput!): Company
+  deleteCompany(companyId: ID!): Boolean!
 }

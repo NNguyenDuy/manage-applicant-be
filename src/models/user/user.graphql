@@ -9,7 +9,10 @@ type User {
   fullName: String
   email: String!
   role: E_Role!
-  candidateProfile: CandidateProfile
+  candidateId: ID
+  companyId: ID
+  idDel: Boolean!
+  candidate: CandidateProfile
   company: Company
 }
 
@@ -30,8 +33,9 @@ type Mutation {
     email: String!
     password: String!
     role: E_Role!
-    candidateProfile: ID
-    company: ID
+    candidateId: ID
+    companyId: ID
+    idDel: Boolean
   ): UserResponse!
 
   updateUser(
@@ -40,8 +44,9 @@ type Mutation {
     email: String
     password: String
     role: E_Role
-    candidateProfile: ID
-    company: ID
+    candidateId: ID
+    companyId: ID
+    idDel: Boolean
   ): User
 
   deleteUser(id: ID!): User

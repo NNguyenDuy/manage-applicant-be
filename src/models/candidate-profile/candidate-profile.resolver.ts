@@ -1,43 +1,30 @@
 import { candidateProfileController } from './candidate-profile.controller'
 import { I_CandidateProfile } from './candidate-profile.types'
-import mongoose from 'mongoose'
 
 export const candidateProfileResolvers = {
   Query: {
-    getAllCandidateProfiles: async (): Promise<I_CandidateProfile[]> => {
-      return await candidateProfileController.getAllCandidateProfiles()
+    getCandidateProfiles: async () => {
+      return await candidateProfileController.getCandidateProfiles()
     },
-    getCandidateProfile: async (
-      _: any,
-      { id }: { id: string }
-    ): Promise<I_CandidateProfile | null> => {
-      return await candidateProfileController.getCandidateProfile(id)
+    getCandidateProfileById: async (_: any, { id }: { id: string }) => {
+      return await candidateProfileController.getCandidateProfileById(id)
     },
   },
   Mutation: {
     createCandidateProfile: async (
       _: any,
-      { userId, resume }: { userId: string; resume: any }
-    ): Promise<{ message: string; data: I_CandidateProfile | null }> => {
-      const objectIdUserId = new mongoose.Types.ObjectId(userId)
-      return await candidateProfileController.createCandidateProfile({
-        userId: objectIdUserId,
-        resume,
-      })
+      { resume }: { resume: I_CandidateProfile }
+    ) => {
+      return await candidateProfileController.createCandidateProfile(resume)
+    },
+    deleteCandidateProfile: async (_: any, { id }: { id: string }) => {
+      return await candidateProfileController.deleteCandidateProfile(id)
     },
     updateCandidateProfile: async (
       _: any,
-      { id, resume }: { id: string; resume?: any }
-    ): Promise<I_CandidateProfile | null> => {
-      return await candidateProfileController.updateCandidateProfile(id, {
-        resume,
-      })
-    },
-    deleteCandidateProfile: async (
-      _: any,
-      { id }: { id: string }
-    ): Promise<I_CandidateProfile | null> => {
-      return await candidateProfileController.deleteCandidateProfile(id)
+      { id, resume }: { id: string; resume: Partial<I_CandidateProfile> }
+    ) => {
+      return await candidateProfileController.updateCandidateProfile(id, resume)
     },
   },
 }

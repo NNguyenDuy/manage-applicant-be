@@ -1,35 +1,43 @@
-import { I_CandidateProfile } from './candidate-profile.types';
-import { CandidateProfileModel } from './candidate-profile.model';
+import { I_CandidateProfile } from './candidate-profile.types'
+import {
+  CandidateProfileModel,
+  ICandidateProfileDocument,
+} from './candidate-profile.model'
 
 export const candidateProfileController = {
-  getAllCandidateProfiles: async (): Promise<I_CandidateProfile[]> => {
-    return await CandidateProfileModel.find().populate('applications').exec();
-  },
-
-  getCandidateProfile: async (id: string): Promise<I_CandidateProfile | null> => {
-    return await CandidateProfileModel.findById(id).populate('applications').exec();
-  },
-
   createCandidateProfile: async (
-    profile: I_CandidateProfile
-  ): Promise<{ message: string; data: I_CandidateProfile | null }> => {
-    const newProfile = new CandidateProfileModel(profile);
-    const savedProfile = await newProfile.save();
+    candidateProfileData: I_CandidateProfile
+  ): Promise<ICandidateProfileDocument> => {
+    const candidateProfile = new CandidateProfileModel(candidateProfileData)
+    return await candidateProfile.save()
+  },
 
-    return {
-      message: 'Candidate profile created successfully.',
-      data: savedProfile.toObject(),
-    };
+  getCandidateProfiles: async (): Promise<ICandidateProfileDocument[]> => {
+    return await CandidateProfileModel.find()
+  },
+
+  getCandidateProfileById: async (
+    id: string
+  ): Promise<ICandidateProfileDocument | null> => {
+    return await CandidateProfileModel.findOne({ _id: id })
+  },
+
+  deleteCandidateProfile: async (
+    id: string
+  ): Promise<ICandidateProfileDocument | null> => {
+    return await CandidateProfileModel.findByIdAndUpdate(
+      id,
+      { idDel: true },
+      { new: true }
+    )
   },
 
   updateCandidateProfile: async (
     id: string,
     profileData: Partial<I_CandidateProfile>
-  ): Promise<I_CandidateProfile | null> => {
-    return await CandidateProfileModel.findByIdAndUpdate(id, profileData, { new: true }).exec();
+  ): Promise<ICandidateProfileDocument | null> => {
+    return await CandidateProfileModel.findByIdAndUpdate(id, profileData, {
+      new: true,
+    })
   },
-
-  deleteCandidateProfile: async (id: string): Promise<I_CandidateProfile | null> => {
-    return await CandidateProfileModel.findByIdAndDelete(id).exec();
-  },
-};
+}

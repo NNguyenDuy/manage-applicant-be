@@ -1,6 +1,4 @@
 import { I_User } from './user.types'
-import { CandidateProfileModel } from '../candidate-profile'
-import { CompanyModel } from '../company'
 import { UserModel, IUserDocument } from './user.model'
 import bcrypt from 'bcrypt'
 
@@ -21,30 +19,12 @@ export const userController = {
 
     return user
   },
+
   getInfoUser: async (userId: string): Promise<I_User | null> => {
     const user = await UserModel.findById(userId).select('-password')
-
-    if (!user) {
-      return null
-    }
-
-    const candidateProfile = user.candidateProfile
-      ? await CandidateProfileModel.findById(user.candidateProfile)
-      : undefined
-
-    const company = user.company
-      ? await CompanyModel.findById(user.company)
-      : undefined
-
-    return {
-      ...user.toObject(),
-      candidateProfile: candidateProfile?.toObject(),
-      company: company?.toObject(),
-    }
+    return user ? user.toObject() : null
   },
-  getUserByEmail: async (email: string): Promise<IUserDocument | null> => {
-    return await UserModel.findOne({ email })
-  },
+
   createUser: async (
     user: I_User
   ): Promise<{ message: string; data: I_User | null }> => {
@@ -58,7 +38,6 @@ export const userController = {
 
     const newUser = new UserModel(user)
     const savedUser = await newUser.save()
-
     return {
       message: 'User created successfully.',
       data: savedUser.toObject(),
@@ -79,6 +58,10 @@ export const userController = {
   },
 
   deleteUser: async (id: string): Promise<I_User | null> => {
-    return await UserModel.findByIdAndDelete(id).select('-password')
+    return await UserModel.findByIdAndUpdate(
+      id,
+      { idDel: true },
+      { new: true }
+    ).select('-password')
   },
 }

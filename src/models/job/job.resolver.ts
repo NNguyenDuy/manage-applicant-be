@@ -1,118 +1,64 @@
+import { I_Company } from '../company'
+import { companyController } from '../company/company.controller'
+import { I_JobCategory } from '../job-category'
+import { jobCategoryController } from '../job-category/job-category.controller'
+import { I_JobType } from '../job-type'
+import { jobTypeController } from '../job-type/job-type.controller'
+import { I_Location } from '../location'
+import { locationController } from '../location/location.controller'
 import { jobController } from './job.controller'
+import { IJobDocument } from './job.model'
 import { I_Job } from './job.types'
-import { LocationModel } from '../location/location.model'
-import { CompanyModel } from '../company/company.model'
-import { JobTypeModel } from '../job-type/job-type.model'
-import mongoose from 'mongoose'
 
 export const jobResolvers = {
   Query: {
-    getAllJobs: async (): Promise<I_Job[]> => {
-      return await jobController.getAllJobs()
-    },
-    getJob: async (_: any, { id }: { id: string }): Promise<I_Job | null> => {
-      return await jobController.getJob(id)
-    },
-    getJobsByCompanyId: async (
+    getJobById: async (
       _: any,
-      { companyId }: { companyId: string }
-    ): Promise<I_Job[]> => {
-      return await jobController.getJobsByCompanyId(companyId)
+      { jobId }: { jobId: string }
+    ): Promise<IJobDocument | null> => {
+      return await jobController.getJobById(jobId)
+    },
+    getAllJobs: async (_: any): Promise<IJobDocument[]> => {
+      return await jobController.getAllJobs()
     },
   },
   Job: {
-    jobType: async (parent: I_Job) => {
-      return await JobTypeModel.findById(parent.jobTypeId)
+    location: async (parent: I_Job): Promise<I_Location | null> => {
+      if (!parent.locationId) return null
+      return await locationController.getLocationById(
+        parent.locationId.toString()
+      )
     },
-    location: async (parent: I_Job) => {
-      return await LocationModel.findById(parent.locationId)
+    company: async (parent: I_Job): Promise<I_Company | null> => {
+      if (!parent.companyId) return null
+      return await companyController.getCompanyById(parent.companyId.toString())
     },
-    company: async (parent: I_Job) => {
-      return await CompanyModel.findById(parent.companyId)
+    jobType: async (parent: I_Job): Promise<I_JobType | null> => {
+      if (!parent.jobTypeId) return null
+      return await jobTypeController.getJobTypeById(parent.jobTypeId.toString())
+    },
+    category: async (parent: I_Job): Promise<I_JobCategory | null> => {
+      if (!parent.categoryId) return null
+      return await jobCategoryController.getJobCategoryById(
+        parent.categoryId.toString()
+      )
     },
   },
   Mutation: {
     createJob: async (
       _: any,
-      {
-        title,
-        description,
-        companyId,
-        jobTypeId,
-        categoryIds,
-        locationId,
-      }: {
-        title: string
-        description: string
-        companyId: string
-        jobTypeId: string
-        categoryIds: string[]
-        locationId: string
-      }
-    ): Promise<{ message: string; data: I_Job | null }> => {
-      const objectIdCompanyId = new mongoose.Types.ObjectId(companyId)
-      const objectIdJobTypeId = new mongoose.Types.ObjectId(jobTypeId)
-      const objectIdCategoryIds = categoryIds.map(
-        (id) => new mongoose.Types.ObjectId(id)
-      )
-      const objectIdLocationId = new mongoose.Types.ObjectId(locationId)
-
-      return await jobController.createJob({
-        title,
-        description,
-        companyId: objectIdCompanyId,
-        jobTypeId: objectIdJobTypeId,
-        categoryIds: objectIdCategoryIds,
-        locationId: objectIdLocationId,
-      })
+      { jobData }: { jobData: IJobDocument }
+    ): Promise<IJobDocument> => {
+      return await jobController.createJob(jobData)
     },
     updateJob: async (
       _: any,
-      {
-        id,
-        title,
-        description,
-        companyId,
-        jobTypeId,
-        categoryIds,
-        locationId,
-      }: {
-        id: string
-        title?: string
-        description?: string
-        companyId?: string
-        jobTypeId?: string
-        categoryIds?: string[]
-        locationId?: string
-      }
-    ): Promise<I_Job | null> => {
-      const objectIdCompanyId = companyId
-        ? new mongoose.Types.ObjectId(companyId)
-        : undefined
-      const objectIdJobTypeId = jobTypeId
-        ? new mongoose.Types.ObjectId(jobTypeId)
-        : undefined
-      const objectIdCategoryIds = categoryIds
-        ? categoryIds.map((id) => new mongoose.Types.ObjectId(id))
-        : undefined
-      const objectIdLocationId = locationId
-        ? new mongoose.Types.ObjectId(locationId)
-        : undefined
-
-      return await jobController.updateJob(id, {
-        title,
-        description,
-        companyId: objectIdCompanyId,
-        jobTypeId: objectIdJobTypeId,
-        categoryIds: objectIdCategoryIds,
-        locationId: objectIdLocationId,
-      })
+      { jobId, jobData }: { jobId: string; jobData: Partial<IJobDocument> }
+    ): Promise<IJobDocument | null> => {
+      return await jobController.updateJob(jobId, jobData)
     },
-    deleteJob: async (
-      _: any,
-      { id }: { id: string }
-    ): Promise<I_Job | null> => {
-      return await jobController.deleteJob(id)
+    deleteJob: async (_: any, { jobId }: { jobId: string }): Promise<void> => {
+      await jobController.deleteJob(jobId)
     },
   },
 }

@@ -1,44 +1,46 @@
+scalar Date
+
 type Job {
-  _id: ID!
-  title: String
-  description: String
-  jobType: JobType
-  location: Location
-  companyId: String
-  company: Company
-  categoryIds: [JobCategory!]
-  candidates: [CandidateProfile!]
+  id: ID!
+  title: String!
+  description: String!
+  salary: Float!
+  experience: Int!
+  deadline: Date!
+  createdAt: Date!
+  updatedAt: Date!
+  headcount: Int!
+  companyId: ID!
+  jobTypeId: ID!
+  categoryId: ID
+  locationId: ID!
+  idDel: Boolean!
+  company: Company!
+  jobType: JobType!
+  category: JobCategory
+  location: Location!
 }
 
-type JobResponse {
-  message: String!
-  data: Job
+input JobInput {
+  title: String!
+  description: String!
+  salary: Float!
+  experience: Int!
+  deadline: Date!
+  headcount: Int!
+  companyId: ID!
+  jobTypeId: ID!
+  categoryId: ID
+  locationId: ID!
 }
 
 type Query {
-  getAllJobs: [Job!]!
-  getJob(id: ID!): Job
+  getJobById(jobId: ID!): Job
+  getAllJobs(idDel: Boolean!): [Job!]!
 }
 
 type Mutation {
-  createJob(
-    title: String!
-    description: String!
-    companyId: ID!
-    jobTypeId: ID!
-    categoryIds: [ID!]!
-    locationId: ID!
-  ): JobResponse!
-
-  updateJob(
-    id: ID!
-    title: String
-    description: String
-    companyId: ID
-    jobTypeId: ID
-    categoryIds: [ID!]
-    locationId: ID
-  ): Job
-
-  deleteJob(id: ID!): Job
+  createJob(jobData: JobInput!): Job!
+  updateJob(jobId: ID!, jobData: JobInput!): Job
+  deleteJob(jobId: ID!): Boolean!
 }

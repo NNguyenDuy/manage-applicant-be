@@ -1,35 +1,32 @@
-import { I_Location } from './location.types';
-import { LocationModel } from './location.model';
+import { I_Location } from './location.types'
+import { LocationModel, ILocationDocument } from './location.model'
 
 export const locationController = {
   getAllLocations: async (): Promise<I_Location[]> => {
-    return await LocationModel.find().exec();
+    return await LocationModel.find()
   },
 
-  getLocation: async (id: string): Promise<I_Location | null> => {
-    return await LocationModel.findById(id).exec();
+  getLocationById: async (id: string): Promise<ILocationDocument | null> => {
+    return await LocationModel.findOne({ _id: id })
   },
 
-  createLocation: async (
-    location: I_Location
-  ): Promise<{ message: string; data: I_Location | null }> => {
-    const newLocation = new LocationModel(location);
-    const savedLocation = await newLocation.save();
-
-    return {
-      message: 'Location created successfully.',
-      data: savedLocation.toObject(),
-    };
+  createLocation: async (location: I_Location): Promise<ILocationDocument> => {
+    const newLocation = new LocationModel(location)
+    return await newLocation.save()
   },
 
   updateLocation: async (
     id: string,
-    locationData: Partial<I_Location>
-  ): Promise<I_Location | null> => {
-    return await LocationModel.findByIdAndUpdate(id, locationData, { new: true }).exec();
+    location: Partial<I_Location>
+  ): Promise<ILocationDocument | null> => {
+    return await LocationModel.findByIdAndUpdate(id, location, { new: true })
   },
 
-  deleteLocation: async (id: string): Promise<I_Location | null> => {
-    return await LocationModel.findByIdAndDelete(id).exec();
+  deleteLocation: async (id: string): Promise<ILocationDocument | null> => {
+    return await LocationModel.findByIdAndUpdate(
+      id,
+      { idDel: true },
+      { new: true }
+    )
   },
-};
+}

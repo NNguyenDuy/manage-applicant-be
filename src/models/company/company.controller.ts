@@ -1,48 +1,32 @@
-import { I_Company } from './company.types';
-import { CompanyModel } from './company.model';
-import { LocationModel } from '../location/location.model';
-import { JobModel } from '../job';
+import { I_Company } from './company.types'
+import { CompanyModel, ICompanyDocument } from './company.model'
 
 export const companyController = {
   getAllCompanies: async (): Promise<I_Company[]> => {
-    return await CompanyModel.find().populate('locationId jobs').exec();
+    return await CompanyModel.find()
   },
 
-  getCompany: async (id: string): Promise<I_Company | null> => {
-    return await CompanyModel.findById(id).populate('locationId jobs').exec();
+  getCompanyById: async (id: string): Promise<ICompanyDocument | null> => {
+    return await CompanyModel.findOne({ _id: id })
   },
 
-  createCompany: async (
-    company: I_Company
-  ): Promise<{ message: string; data: I_Company | null }> => {
-    const newCompany = new CompanyModel(company);
-    const savedCompany = await newCompany.save();
-
-    return {
-      message: 'Company created successfully.',
-      data: savedCompany.toObject(),
-    };
+  createCompany: async (company: I_Company): Promise<ICompanyDocument> => {
+    const newCompany = new CompanyModel(company)
+    return await newCompany.save()
   },
 
   updateCompany: async (
     id: string,
-    companyData: Partial<I_Company>
-  ): Promise<I_Company | null> => {
-    if (companyData.locationId) {
-      const location = await LocationModel.findById(companyData.locationId);
-      if (!location) {
-        throw new Error('Invalid location ID');
-      }
-    }
-
-    return await CompanyModel.findByIdAndUpdate(id, companyData, { new: true }).exec();
+    company: Partial<I_Company>
+  ): Promise<ICompanyDocument | null> => {
+    return await CompanyModel.findByIdAndUpdate(id, company, { new: true })
   },
 
-  deleteCompany: async (id: string): Promise<I_Company | null> => {
-    const company = await CompanyModel.findByIdAndDelete(id).exec();
-    if (company?.jobs) {
-      await JobModel.deleteMany({ _id: { $in: company.jobs } });
-    }
-    return company;
+  deleteCompany: async (id: string): Promise<ICompanyDocument | null> => {
+    return await CompanyModel.findByIdAndUpdate(
+      id,
+      { idDel: true },
+      { new: true }
+    )
   },
-};
+}

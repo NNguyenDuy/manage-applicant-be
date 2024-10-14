@@ -1,4 +1,4 @@
-enum ApplicationStatus {
+enum E_ApplicationStatus {
   submitted
   under_review
   accepted
@@ -9,24 +9,32 @@ type Application {
   _id: ID!
   jobId: ID!
   candidateProfileId: ID!
-  status: ApplicationStatus!
-  appliedAt: String!
-}
-
-type ApplicationResponse {
-  message: String!
-  data: Application
+  selectedCvLink: String!
+  status: E_ApplicationStatus!
+  appliedAt: Date!
+  isDel: Boolean!
 }
 
 type Query {
   getAllApplications: [Application!]!
-  getApplication(id: ID!): Application
+  getApplicationById(id: ID!): Application
 }
 
 type Mutation {
-  createApplication(jobId: ID!, candidateProfileId: ID!): ApplicationResponse!
+  createApplication(
+    jobId: ID!
+    candidateProfileId: ID!
+    selectedCvLink: String!
+    status: E_ApplicationStatus
+  ): Application!
 
-  updateApplicationStatus(id: ID!, status: ApplicationStatus!): Application
+  updateApplication(
+    id: ID!
+    jobId: ID
+    candidateProfileId: ID
+    selectedCvLink: String
+    status: E_ApplicationStatus
+  ): Application
 
   deleteApplication(id: ID!): Application
 }

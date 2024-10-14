@@ -1,5 +1,4 @@
-import { I_Company } from './../company/company.types'
-import { I_CandidateProfile } from './../candidate-profile/candidate-profile.types'
+import mongoose from 'mongoose'
 
 export enum E_Role {
   ADMIN = 'admin',
@@ -11,7 +10,8 @@ export interface I_User {
   fullName?: string
   email: string
   password: string
-  role?: E_Role
-  candidateProfile?: I_CandidateProfile
-  company?: I_Company
+  role: E_Role
+  candidateId?: mongoose.Types.ObjectId
+  companyId?: mongoose.Types.ObjectId
+  idDel?: boolean
 }

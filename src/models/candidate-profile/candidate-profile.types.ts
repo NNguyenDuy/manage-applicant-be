@@ -1,17 +1,14 @@
-import mongoose from 'mongoose';
-
-interface Skill {
-  name: string;
-  experience: number;
+export interface I_Skill {
+  name: string
+  experience: number
 }
 
-interface Resume {
-  cvLinks: string[];
-  skills: Skill[];
+export interface I_Resume {
+  cvLinks: string[]
+  skills: I_Skill[]
 }
 
 export interface I_CandidateProfile {
-  userId: mongoose.Types.ObjectId;
-  resume: Resume;
-  applications?: mongoose.Types.ObjectId[];
+  resume: I_Resume
+  idDel?: boolean
 }

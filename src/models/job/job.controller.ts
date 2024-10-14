@@ -1,43 +1,29 @@
-import { I_Job } from './job.types'
-import { JobModel } from './job.model'
+import { IJobDocument, JobModel } from './job.model'
 
 export const jobController = {
-  getAllJobs: async (): Promise<I_Job[]> => {
-    return await JobModel.find().populate(
-      'companyId jobTypeId categoryIds locationId candidates'
-    )
+  createJob: async (jobData: IJobDocument): Promise<IJobDocument> => {
+    const job = new JobModel(jobData)
+    return await job.save()
   },
 
-  getJob: async (id: string): Promise<I_Job | null> => {
-    return await JobModel.findById(id).populate(
-      'companyId jobTypeId categoryIds locationId candidates'
-    )
-  },
-  getJobsByCompanyId: async (companyId: string): Promise<I_Job[]> => {
-    return await JobModel.find({ companyId }).populate(
-      'companyId jobTypeId categoryIds locationId candidates'
-    )
+  getJobById: async (jobId: string): Promise<IJobDocument | null> => {
+    return await JobModel.findOne({ _id: jobId })
   },
 
-  createJob: async (
-    job: I_Job
-  ): Promise<{ message: string; data: I_Job | null }> => {
-    const newJob = new JobModel(job)
-    const savedJob = await newJob.save()
-    return {
-      message: 'Job created successfully.',
-      data: savedJob.toObject(),
-    }
+  getAllJobs: async (): Promise<IJobDocument[]> => {
+    return await JobModel.find()
   },
 
   updateJob: async (
-    id: string,
-    jobData: Partial<I_Job>
-  ): Promise<I_Job | null> => {
-    return await JobModel.findByIdAndUpdate(id, jobData, { new: true }).exec()
+    jobId: string,
+    jobData: Partial<IJobDocument>
+  ): Promise<IJobDocument | null> => {
+    return await JobModel.findOneAndUpdate({ _id: jobId }, jobData, {
+      new: true,
+    })
   },
 
-  deleteJob: async (id: string): Promise<I_Job | null> => {
-    return await JobModel.findByIdAndDelete(id).exec()
+  deleteJob: async (jobId: string): Promise<void> => {
+    await JobModel.updateOne({ _id: jobId }, { idDel: true })
   },
 }

@@ -1,30 +1,36 @@
-import { locationController } from './location.controller';
-import { I_Location } from './location.types';
+import { locationController } from './location.controller'
+import { I_Location } from './location.types'
 
 export const locationResolvers = {
   Query: {
     getAllLocations: async (): Promise<I_Location[]> => {
-      return await locationController.getAllLocations();
+      return await locationController.getAllLocations()
     },
-    getLocation: async (_: any, { id }: { id: string }): Promise<I_Location | null> => {
-      return await locationController.getLocation(id);
+    getLocationById: async (
+      _: any,
+      { id }: { id: string }
+    ): Promise<I_Location | null> => {
+      return await locationController.getLocationById(id)
     },
   },
   Mutation: {
     createLocation: async (
       _: any,
-      { address, city, country }: { address: string; city: string; country: string }
-    ): Promise<{ message: string; data: I_Location | null }> => {
-      return await locationController.createLocation({ address, city, country });
+      { location }: { location: I_Location }
+    ): Promise<I_Location> => {
+      return await locationController.createLocation(location)
     },
     updateLocation: async (
       _: any,
-      { id, address, city, country }: { id: string; address?: string; city?: string; country?: string }
+      { id, location }: { id: string; location: Partial<I_Location> }
     ): Promise<I_Location | null> => {
-      return await locationController.updateLocation(id, { address, city, country });
+      return await locationController.updateLocation(id, location)
     },
-    deleteLocation: async (_: any, { id }: { id: string }): Promise<I_Location | null> => {
-      return await locationController.deleteLocation(id);
+    deleteLocation: async (
+      _: any,
+      { id }: { id: string }
+    ): Promise<I_Location | null> => {
+      return await locationController.deleteLocation(id)
     },
   },
-};
+}

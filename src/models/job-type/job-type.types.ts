@@ -1,3 +1,4 @@
 export interface I_JobType {
-  type: string;
+  type: string
+  idDel?: boolean
 }

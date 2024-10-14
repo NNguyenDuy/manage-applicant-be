@@ -1,35 +1,32 @@
-import { I_JobType } from './job-type.types';
-import { JobTypeModel } from './job-type.model';
+import { I_JobType } from './job-type.types'
+import { JobTypeModel, IJobTypeDocument } from './job-type.model'
 
 export const jobTypeController = {
   getAllJobTypes: async (): Promise<I_JobType[]> => {
-    return await JobTypeModel.find().exec();
+    return await JobTypeModel.find()
   },
 
-  getJobType: async (id: string): Promise<I_JobType | null> => {
-    return await JobTypeModel.findById(id).exec();
+  getJobTypeById: async (id: string): Promise<IJobTypeDocument | null> => {
+    return await JobTypeModel.findOne({ _id: id })
   },
 
-  createJobType: async (
-    jobType: I_JobType
-  ): Promise<{ message: string; data: I_JobType | null }> => {
-    const newJobType = new JobTypeModel(jobType);
-    const savedJobType = await newJobType.save();
-
-    return {
-      message: 'Job type created successfully.',
-      data: savedJobType.toObject(),
-    };
+  createJobType: async (type: I_JobType): Promise<IJobTypeDocument> => {
+    const newType = new JobTypeModel(type)
+    return await newType.save()
   },
 
   updateJobType: async (
     id: string,
-    type: string
-  ): Promise<I_JobType | null> => {
-    return await JobTypeModel.findByIdAndUpdate(id, { type }, { new: true }).exec();
+    type: Partial<I_JobType>
+  ): Promise<IJobTypeDocument | null> => {
+    return await JobTypeModel.findByIdAndUpdate(id, type, { new: true })
   },
 
-  deleteJobType: async (id: string): Promise<I_JobType | null> => {
-    return await JobTypeModel.findByIdAndDelete(id).exec();
+  deleteJobType: async (id: string): Promise<IJobTypeDocument | null> => {
+    return await JobTypeModel.findByIdAndUpdate(
+      id,
+      { idDel: true },
+      { new: true }
+    )
   },
-};
+}

@@ -3,31 +3,21 @@ type Location {
   address: String!
   city: String!
   country: String!
-}
-
-type LocationResponse {
-  message: String!
-  data: Location
+  idDel: Boolean!
 }
 
 type Query {
   getAllLocations: [Location!]!
-  getLocation(id: ID!): Location
+  getLocationById(id: ID!): Location
 }
 
 type Mutation {
-  createLocation(
-    address: String!
-    city: String!
-    country: String!
-  ): LocationResponse!
-
+  createLocation(address: String!, city: String!, country: String!): Location!
   updateLocation(
     id: ID!
     address: String
     city: String
     country: String
   ): Location
-
   deleteLocation(id: ID!): Location
 }

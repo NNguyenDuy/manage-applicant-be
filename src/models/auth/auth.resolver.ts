@@ -15,7 +15,9 @@ export const authResolvers = {
         email,
         password
       )
-      if (!user) return null
+      if (!user) {
+        throw new Error('Email hoặc mật khẩu không đúng.')
+      }
 
       const token = jwt.sign(
         { userId: user._id },
@@ -26,6 +28,7 @@ export const authResolvers = {
       )
       return { token }
     },
+
     register: async (
       _: any,
       {
@@ -47,12 +50,15 @@ export const authResolvers = {
         throw new Error('Email đã được sử dụng.')
       }
 
-      let user: IUserDocument
+      let user: IUserDocument = new UserModel({
+        email,
+        password,
+        fullName,
+        role,
+      })
+      await user.save()
 
-      if (role === E_Role.CANDIDATE) {
-        user = new UserModel({ email, password, fullName, role })
-        await user.save()
-      } else if (role === E_Role.RECRUITER && company) {
+      if (role === E_Role.RECRUITER && company) {
         let location: ILocationDocument | undefined
 
         if (company.location) {
@@ -61,25 +67,21 @@ export const authResolvers = {
           )) as ILocationDocument
         }
 
-        user = new UserModel({ email, password, fullName, role })
-        await user.save()
+        if (company.name)
+          (await CompanyModel.create({
+            name: company.name,
+            locationId: location ? location._id : undefined,
+          })) as ICompanyDocument
 
-        const newCompany = (await CompanyModel.create({
-          name: company.name,
-          ownerId: user._id,
-          locationId: location ? location._id : undefined,
-        })) as ICompanyDocument
-
-        user.company = newCompany
         await user.save()
-      } else {
-        throw new Error('Thông tin đăng ký không hợp lệ.')
       }
 
       const token = jwt.sign(
         { userId: user._id },
         process.env.SECRET_KEY || '',
-        { expiresIn: '3d' }
+        {
+          expiresIn: '3d',
+        }
       )
 
       return { token }
