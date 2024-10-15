@@ -37,6 +37,7 @@ input JobInput {
 type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
+  getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String): [Job!]!
 }
 
 type Mutation {
