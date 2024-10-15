@@ -37,11 +37,12 @@ input JobInput {
 type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
-  getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String): [Job!]!
+  getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String, idDel: Boolean): [Job!]!
 }
 
 type Mutation {
   createJob(jobData: JobInput!): Job!
   updateJob(jobId: ID!, jobData: JobInput!): Job
+  updateIsDel(jobId: ID!, isDel: Boolean): Job
   deleteJob(jobId: ID!): Boolean!
 }

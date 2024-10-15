@@ -1,4 +1,5 @@
-import { JobCategoryModel } from '../job-category'
+import mongoose from 'mongoose'
+import { JobCategoryModel, IJobCategoryDocument } from '../job-category'
 import { LocationModel } from '../location'
 import { IJobDocument, JobModel } from './job.model'
 
@@ -12,10 +13,10 @@ export const jobController = {
     return await JobModel.findOne({ _id: jobId })
   },
 
-  getAllJobs: async (): Promise<IJobDocument[]> => {
-    return await JobModel.find()
+  getAllJobs: async (idDel: boolean): Promise<IJobDocument[]> => {
+    return await JobModel.find({ idDel }); 
   },
-  getJobsWithFilters: async (Jtitle: string, Jlocation: string, JCategory: string): Promise<IJobDocument[]> => {
+  getJobsWithFilters: async (Jtitle: string, Jlocation: string, JCategory: string, idDel: boolean): Promise<IJobDocument[]> => {
     const query: any = {}
     
     if (Jtitle) {
@@ -30,17 +31,14 @@ export const jobController = {
     }
     
     if (JCategory) {
-      const foundJobType = await JobCategoryModel.findOne({ name: JCategory })
-      if (foundJobType) {
-        query.categoryIds = foundJobType._id
+      const foundJobCategory = await JobCategoryModel.findOne({ name: JCategory }) as IJobCategoryDocument | null;
+      if (foundJobCategory && mongoose.Types.ObjectId.isValid(foundJobCategory.name)) {
+        query.categoryId = foundJobCategory._id;
       }
     }
+    query.idDel = idDel;
     
     return await JobModel.find(query)
-      .populate('companyId')
-      .populate('jobTypeId')
-      .populate('categoryIds')
-      .populate('locationId')
   },
   updateJob: async (
     jobId: string,
@@ -50,7 +48,15 @@ export const jobController = {
       new: true,
     })
   },
-
+  updateIsDel: async (jobId: string, isDel: boolean): Promise<IJobDocument | null> => {
+    return await JobModel.findOneAndUpdate(
+      { _id: jobId },
+      { idDel: isDel },  
+      { new: true }
+    );
+  },
+  
+  
   deleteJob: async (jobId: string): Promise<void> => {
     await JobModel.updateOne({ _id: jobId }, { idDel: true })
   },
