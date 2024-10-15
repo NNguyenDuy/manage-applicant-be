@@ -8,11 +8,11 @@ export enum E_ApplicationStatus {
 }
 
 export enum E_EvaluationAI {
-  NONE = 'Chưa đánh giá',
-  PRIORITY = 'Ưu tiên',
-  POTENTIAl = 'Tiềm năng',
-  SUITABLE = 'Phù hợp',
-  NOT_SUITABLE = 'Chưa phù hợp',
+  NONE = 'none',
+  PRIORITY = 'priority',
+  POTENTIAl = 'potential',
+  SUITABLE = 'suitable',
+  NOT_SUITABLE = 'not_suitable',
 }
 
 export interface I_Application {
