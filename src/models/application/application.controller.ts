@@ -1,15 +1,44 @@
-import { I_Application } from './application.types'
+import { E_ApplicationStatus, I_Application } from './application.types'
 import { ApplicationModel, IApplicationDocument } from './application.model'
-
+E_ApplicationStatus
 export const applicationController = {
   getAllApplications: async (): Promise<I_Application[]> => {
     return await ApplicationModel.find({ isDel: false })
   },
 
   getApplicationByCandidate: async (
-    candidateProfileId: string
-  ): Promise<IApplicationDocument[] | null> => {
-    return await ApplicationModel.find({ candidateProfileId, isDel: false })
+    candidateProfileId: string,
+    status?: E_ApplicationStatus,
+    page: number = 1,
+    limit: number = 5
+  ): Promise<{
+    items: IApplicationDocument[]
+    totalItems: number
+    totalPages: number
+    currentPage: number
+  }> => {
+    const query: any = {
+      candidateProfileId,
+      isDel: false,
+    }
+    if (status) {
+      query.status = status
+    }
+
+    const offset = (page - 1) * limit
+
+    const totalItems = await ApplicationModel.countDocuments(query)
+
+    const items = await ApplicationModel.find(query).skip(offset).limit(limit)
+
+    const totalPages = Math.ceil(totalItems / limit)
+
+    return {
+      items,
+      totalItems,
+      totalPages,
+      currentPage: page,
+    }
   },
 
   getApplicationById: async (

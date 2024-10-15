@@ -1,7 +1,7 @@
 import { I_Job } from '../job'
 import { jobController } from '../job/job.controller'
 import { applicationController } from './application.controller'
-import { I_Application } from './application.types'
+import { E_ApplicationStatus, I_Application } from './application.types'
 
 export const applicationResolvers = {
   Query: {
@@ -16,10 +16,28 @@ export const applicationResolvers = {
     },
     getApplicationByCandidate: async (
       _: any,
-      { candidateProfileId }: { candidateProfileId: string }
-    ): Promise<I_Application[] | null> => {
+      {
+        candidateProfileId,
+        status,
+        page = 1,
+        limit = 5,
+      }: {
+        candidateProfileId: string
+        status?: E_ApplicationStatus
+        page: number
+        limit: number
+      }
+    ): Promise<{
+      items: I_Application[]
+      totalItems: number
+      totalPages: number
+      currentPage: number
+    }> => {
       return await applicationController.getApplicationByCandidate(
-        candidateProfileId
+        candidateProfileId,
+        status,
+        page,
+        limit
       )
     },
   },

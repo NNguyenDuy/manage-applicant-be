@@ -19,7 +19,19 @@ type Application {
 type Query {
   getAllApplications: [Application!]!
   getApplicationById(id: ID!): Application
-  getApplicationByCandidate(candidateProfileId: ID!): [Application!]!
+  getApplicationByCandidate(
+    candidateProfileId: ID!
+    status: E_ApplicationStatus
+    page: Int = 1
+    limit: Int = 5
+  ): PaginatedApplications
+}
+
+type PaginatedApplications {
+  items: [Application]
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
 }
 
 type Mutation {
