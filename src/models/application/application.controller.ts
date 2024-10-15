@@ -1,6 +1,6 @@
 import { E_ApplicationStatus, I_Application } from './application.types'
 import { ApplicationModel, IApplicationDocument } from './application.model'
-E_ApplicationStatus
+
 export const applicationController = {
   getAllApplications: async (): Promise<I_Application[]> => {
     return await ApplicationModel.find({ isDel: false })
@@ -49,9 +49,13 @@ export const applicationController = {
 
   createApplication: async (
     application: I_Application
-  ): Promise<IApplicationDocument> => {
-    const newApplication = new ApplicationModel(application)
-    return await newApplication.save()
+  ): Promise<IApplicationDocument | null> => {
+    const job = await ApplicationModel.findOne({ jobId: application.jobId })
+    const candidateProfile = await ApplicationModel.findOne({
+      candidateProfileId: application.candidateProfileId,
+    })
+    if (job && candidateProfile) return null
+    return await new ApplicationModel(application).save()
   },
 
   updateApplication: async (

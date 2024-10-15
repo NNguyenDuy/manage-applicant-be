@@ -39,7 +39,7 @@ export async function seedData() {
 
   const candidateProfile = await CandidateProfileModel.create({
     resume: {
-      cvLinks: ['http://example.com/cv1.pdf'],
+      cvLinks: ['/uploads/[candidate@example.com]-cyber.pdf'],
       skills: [
         { name: 'JavaScript', experience: 3 },
         { name: 'Node.js', experience: 2 },
@@ -93,7 +93,7 @@ export async function seedData() {
   await ApplicationModel.create({
     jobId: job._id,
     candidateProfileId: candidateProfile._id,
-    selectedCvLink: 'http://example.com/cv1.pdf',
+    selectedCvLink: '/uploads/[candidate@example.com]-cyber.pdf',
     status: E_ApplicationStatus.SUBMITTED,
     appliedAt: new Date(),
   })

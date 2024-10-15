@@ -51,7 +51,7 @@ export const applicationResolvers = {
     createApplication: async (
       _: any,
       { application }: { application: I_Application }
-    ): Promise<I_Application> => {
+    ): Promise<I_Application | null> => {
       return await applicationController.createApplication(application)
     },
     updateApplication: async (

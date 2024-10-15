@@ -44,12 +44,7 @@ type PaginatedApplications {
 }
 
 type Mutation {
-  createApplication(
-    jobId: ID!
-    candidateProfileId: ID!
-    selectedCvLink: String!
-    status: E_ApplicationStatus
-  ): Application!
+  createApplication(application: ApplicationInput!): Application
 
   updateApplication(
     id: ID!
@@ -60,4 +55,12 @@ type Mutation {
   ): Application
 
   deleteApplication(id: ID!): Application
+}
+
+input ApplicationInput {
+  jobId: ID!
+  candidateProfileId: ID!
+  selectedCvLink: String!
+  evaluationAI: E_EvaluationAI
+  status: E_ApplicationStatus
 }
