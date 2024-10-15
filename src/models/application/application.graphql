@@ -5,6 +5,14 @@ enum E_ApplicationStatus {
   rejected
 }
 
+enum E_EvaluationAI {
+  none
+  priority
+  potential
+  suitable
+  not_suitable
+}
+
 type Application {
   _id: ID!
   jobId: ID!
@@ -12,6 +20,7 @@ type Application {
   selectedCvLink: String!
   status: E_ApplicationStatus!
   appliedAt: Date!
+  evaluationAI: E_EvaluationAI
   isDel: Boolean!
   job: Job!
 }

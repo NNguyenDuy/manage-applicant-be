@@ -1,5 +1,9 @@
 import { Schema, model, Document } from 'mongoose'
-import { I_Application, E_ApplicationStatus } from './application.types'
+import {
+  I_Application,
+  E_ApplicationStatus,
+  E_EvaluationAI,
+} from './application.types'
 
 export interface IApplicationDocument extends I_Application, Document {}
 
@@ -16,6 +20,7 @@ const ApplicationSchema = new Schema<IApplicationDocument>({
     enum: Object.values(E_ApplicationStatus),
     default: E_ApplicationStatus.SUBMITTED,
   },
+  evaluationAI: { type: String, default: E_EvaluationAI.NONE },
   appliedAt: { type: Date, default: Date.now },
   isDel: { type: Boolean, default: false },
 })
