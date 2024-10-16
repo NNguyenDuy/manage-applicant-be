@@ -39,7 +39,7 @@ export async function seedData() {
 
   const candidateProfile = await CandidateProfileModel.create({
     resume: {
-      cvLinks: ['http://example.com/cv1.pdf'],
+      cvLinks: ['/uploads/[candidate@example.com]-cyber.pdf'],
       skills: [
         { name: 'JavaScript', experience: 3 },
         { name: 'Node.js', experience: 2 },
@@ -76,7 +76,11 @@ export async function seedData() {
 
   const job = await JobModel.create({
     title: 'Lập trình viên Full Stack',
-    description: 'Phát triển ứng dụng web.',
+    description: `- Có ít nhất 2 năm kinh nghiệm (Ưu tiên kinh nghiệm cao) với ReactJS, Typescript
+    - Có kinh nghiệm phát triển ứng dụng web/mobile
+    - Có thể phát triển HTML, CSS, Javascript, jQuery
+    - Có kinh nghiệm với các công cụ cộng tác như Git, Jira và Confluence
+    - Hiểu và sử dụng CI/CD`,
     salary: 15000000,
     experience: 2,
     deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
@@ -93,7 +97,7 @@ export async function seedData() {
   await ApplicationModel.create({
     jobId: job._id,
     candidateProfileId: candidateProfile._id,
-    selectedCvLink: 'http://example.com/cv1.pdf',
+    selectedCvLink: '/uploads/[candidate@example.com]-cyber.pdf',
     status: E_ApplicationStatus.SUBMITTED,
     appliedAt: new Date(),
   })

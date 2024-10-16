@@ -3,9 +3,29 @@ import mongoose from 'mongoose'
 import { ApolloServer } from 'apollo-server-express'
 import schema from './shared/graphql/schema'
 import config from './config'
+import cors from 'cors'
 import { seedData } from './seed'
-
+import upload from './routes/upload'
+import path from 'path'
 const app: Express = express()
+
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5000',
+      'https://studio.apollographql.com',
+    ],
+    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
+)
+
+app.use(
+  '/uploads',
+  express.static(path.join(process.cwd(), 'src/public/uploads'))
+)
 
 async function startServer() {
   const server = new ApolloServer({
@@ -17,6 +37,8 @@ async function startServer() {
 
   await server.start()
   server.applyMiddleware({ app })
+
+  app.use('/rest', upload)
 
   app.get('/', (req, res) => {
     res.send('Server on')
@@ -34,7 +56,8 @@ async function startServer() {
 
   app.listen(config.port, () => {
     console.log(
-      `Server listening on port http://localhost:${config.port}${server.graphqlPath}`
+      `Server listening on port http://localhost:${config.port}${server.graphqlPath}`,
+      `\nServer listening on port http://localhost:5000/rest`
     )
   })
 }

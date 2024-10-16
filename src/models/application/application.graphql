@@ -5,6 +5,14 @@ enum E_ApplicationStatus {
   rejected
 }
 
+enum E_EvaluationAI {
+  none
+  priority
+  potential
+  suitable
+  not_suitable
+}
+
 type Application {
   _id: ID!
   jobId: ID!
@@ -12,6 +20,7 @@ type Application {
   selectedCvLink: String!
   status: E_ApplicationStatus!
   appliedAt: Date!
+  evaluationAI: E_EvaluationAI
   isDel: Boolean!
   job: Job!
 }
@@ -19,17 +28,24 @@ type Application {
 type Query {
   getAllApplications: [Application!]!
   getApplicationById(id: ID!): Application
-  getApplicationByCandidate(candidateProfileId: ID!): [Application!]!
   getApplicationsByJob(jobId: ID!): [Application!]!
+  getApplicationByCandidate(
+    candidateProfileId: ID!
+    status: E_ApplicationStatus
+    page: Int = 1
+    limit: Int = 5
+  ): PaginatedApplications
+}
+
+type PaginatedApplications {
+  items: [Application]
+  totalItems: Int!
+  totalPages: Int!
+  currentPage: Int!
 }
 
 type Mutation {
-  createApplication(
-    jobId: ID!
-    candidateProfileId: ID!
-    selectedCvLink: String!
-    status: E_ApplicationStatus
-  ): Application!
+  createApplication(application: ApplicationInput!): Application
 
   updateApplication(
     id: ID!
@@ -44,4 +60,12 @@ type Mutation {
   ): Application!
   deleteApplication(id: ID!): Application
 
+}
+
+input ApplicationInput {
+  jobId: ID!
+  candidateProfileId: ID!
+  selectedCvLink: String!
+  evaluationAI: E_EvaluationAI
+  status: E_ApplicationStatus
 }
