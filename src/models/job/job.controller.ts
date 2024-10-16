@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { JobCategoryModel, IJobCategoryDocument } from '../job-category'
 import { LocationModel } from '../location'
 import { IJobDocument, JobModel } from './job.model'
+import { get } from 'http'
 
 export const jobController = {
   createJob: async (jobData: IJobDocument): Promise<IJobDocument> => {
@@ -39,6 +40,9 @@ export const jobController = {
     query.idDel = idDel;
     
     return await JobModel.find(query)
+  },
+  getMaintainJobsByCompany: async (companyId: string): Promise<IJobDocument[]> => {
+    return await JobModel.find({ companyId, idDel: false })
   },
   updateJob: async (
     jobId: string,

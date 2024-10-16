@@ -38,6 +38,7 @@ type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
   getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String, idDel: Boolean): [Job!]!
+  getMaintainJobsByCompany(companyId: ID!): [Job!]!
 }
 
 type Mutation {

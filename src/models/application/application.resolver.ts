@@ -2,7 +2,7 @@ import { I_Job } from '../job'
 import { jobController } from '../job/job.controller'
 import { applicationController } from './application.controller'
 import { I_Application } from './application.types'
-
+import { E_ApplicationStatus } from './application.types'
 export const applicationResolvers = {
   Query: {
     getAllApplications: async (): Promise<I_Application[]> => {
@@ -21,6 +21,12 @@ export const applicationResolvers = {
       return await applicationController.getApplicationByCandidate(
         candidateProfileId
       )
+    },
+    getApplicationsByCompany: async (
+      _: any,
+      { companyId }: { companyId: string }
+    ): Promise<I_Application[] | null> => {
+      return await applicationController.getApplicationsByCompany(companyId);
     },
   },
   Application: {
@@ -41,6 +47,12 @@ export const applicationResolvers = {
       { id, application }: { id: string; application: Partial<I_Application> }
     ): Promise<I_Application | null> => {
       return await applicationController.updateApplication(id, application)
+    },
+    updateApplicationStatus: async (
+      _: any,
+      { id, newStatus }: { id: string; newStatus: E_ApplicationStatus }
+    ): Promise<I_Application | null> => {
+      return await applicationController.updateApplicationStatus(id, newStatus);
     },
     deleteApplication: async (
       _: any,

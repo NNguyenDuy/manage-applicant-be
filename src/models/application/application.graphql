@@ -20,6 +20,7 @@ type Query {
   getAllApplications: [Application!]!
   getApplicationById(id: ID!): Application
   getApplicationByCandidate(candidateProfileId: ID!): [Application!]!
+  getApplicationsByCompany(companyId: ID!): [Application!]!
 }
 
 type Mutation {
@@ -37,6 +38,10 @@ type Mutation {
     selectedCvLink: String
     status: E_ApplicationStatus
   ): Application
-
+  updateApplicationStatus(
+    id: ID!
+    newStatus: E_ApplicationStatus!
+  ): Application!
   deleteApplication(id: ID!): Application
+
 }
