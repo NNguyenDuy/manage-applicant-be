@@ -26,7 +26,13 @@ export const jobResolvers = {
       { Jtitle, Jlocation, JCategory, idDel }: { Jtitle: string; Jlocation: string; JCategory: string; idDel: boolean }
     ): Promise<IJobDocument[]> => {
       return await jobController.getJobsWithFilters(Jtitle, Jlocation, JCategory, idDel);
-    },    
+    },   
+    getMaintainJobsByCompany: async (
+      _: any,
+      { companyId }: { companyId: string }
+    ): Promise<IJobDocument[]> => {
+      return await jobController.getMaintainJobsByCompany(companyId)
+    }, 
   },
   Job: {
     location: async (parent: I_Job): Promise<I_Location | null> => {

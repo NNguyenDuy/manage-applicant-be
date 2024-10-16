@@ -40,6 +40,10 @@ export const applicationResolvers = {
         limit
       )
     },
+    getApplicationsByJob: async (_: any, { jobId }: { jobId: string }): Promise<I_Application[]> => {
+      const applications = await applicationController.getApplicationsByJob(jobId);
+      return applications ?? [];
+    },    
   },
   Application: {
     job: async (parent: I_Application): Promise<I_Job | null> => {
@@ -59,6 +63,12 @@ export const applicationResolvers = {
       { id, application }: { id: string; application: Partial<I_Application> }
     ): Promise<I_Application | null> => {
       return await applicationController.updateApplication(id, application)
+    },
+    updateApplicationStatus: async (
+      _: any,
+      { id, newStatus }: { id: string; newStatus: E_ApplicationStatus }
+    ): Promise<I_Application | null> => {
+      return await applicationController.updateApplicationStatus(id, newStatus);
     },
     deleteApplication: async (
       _: any,

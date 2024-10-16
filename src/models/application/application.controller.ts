@@ -67,7 +67,15 @@ export const applicationController = {
   ): Promise<IApplicationDocument | null> => {
     return await ApplicationModel.findOne({ _id: id, isDel: false })
   },
-
+  getApplicationsByJob: async (jobId: string): Promise<IApplicationDocument[] | []> => {
+    const applications = await ApplicationModel.find({ jobId, isDel: false });
+    if (!applications || applications.length === 0) {
+      return [];
+    }
+  
+    return applications;
+  },
+  
   createApplication: async (
     application: I_Application
   ): Promise<IApplicationDocument | null> => {
@@ -107,7 +115,16 @@ export const applicationController = {
       return await new ApplicationModel(application).save()
     }
   },
-
+  updateApplicationStatus: async (
+    applicationId: string,
+    newStatus: E_ApplicationStatus
+  ): Promise<IApplicationDocument | null> => {
+    return await ApplicationModel.findOneAndUpdate(
+      { _id: applicationId },               
+      { status: newStatus },                
+      { new: true }                        
+    );
+  },
   updateApplication: async (
     id: string,
     application: Partial<I_Application>
@@ -116,7 +133,7 @@ export const applicationController = {
       new: true,
     })
   },
-
+  
   deleteApplication: async (
     id: string
   ): Promise<IApplicationDocument | null> => {
