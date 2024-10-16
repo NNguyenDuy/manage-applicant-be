@@ -22,12 +22,10 @@ export const applicationResolvers = {
         candidateProfileId
       )
     },
-    getApplicationsByCompany: async (
-      _: any,
-      { companyId }: { companyId: string }
-    ): Promise<I_Application[] | null> => {
-      return await applicationController.getApplicationsByCompany(companyId);
-    },
+    getApplicationsByJob: async (_: any, { jobId }: { jobId: string }): Promise<I_Application[]> => {
+      const applications = await applicationController.getApplicationsByJob(jobId);
+      return applications ?? [];
+    },    
   },
   Application: {
     job: async (parent: I_Application): Promise<I_Job | null> => {

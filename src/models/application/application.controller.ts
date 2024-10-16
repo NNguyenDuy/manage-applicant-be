@@ -18,13 +18,15 @@ export const applicationController = {
   ): Promise<IApplicationDocument | null> => {
     return await ApplicationModel.findOne({ _id: id, isDel: false })
   },
-  getApplicationsByCompany: async (
-    companyId: string
-  ): Promise<IApplicationDocument[] | null> => {
-    const jobs = await JobModel.find({ companyId, idDel: false }, '_id');
-    const jobIds = jobs.map((job) => job._id); 
-    return await ApplicationModel.find({ jobId: { $in: jobIds }, isDel: false });
+  getApplicationsByJob: async (jobId: string): Promise<IApplicationDocument[] | []> => {
+    const applications = await ApplicationModel.find({ jobId, isDel: false });
+    if (!applications || applications.length === 0) {
+      return [];
+    }
+  
+    return applications;
   },
+  
   createApplication: async (
     application: I_Application
   ): Promise<IApplicationDocument> => {

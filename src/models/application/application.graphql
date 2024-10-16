@@ -20,7 +20,7 @@ type Query {
   getAllApplications: [Application!]!
   getApplicationById(id: ID!): Application
   getApplicationByCandidate(candidateProfileId: ID!): [Application!]!
-  getApplicationsByCompany(companyId: ID!): [Application!]!
+  getApplicationsByJob(jobId: ID!): [Application!]!
 }
 
 type Mutation {
