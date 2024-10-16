@@ -26,4 +26,8 @@ export const jobController = {
   deleteJob: async (jobId: string): Promise<void> => {
     await JobModel.updateOne({ _id: jobId }, { idDel: true })
   },
+
+  getMaintainJobsByCompany: async (companyId: string): Promise<IJobDocument[]> => {
+    return await JobModel.find({ companyId, idDel: false })
+  },
 }

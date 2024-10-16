@@ -34,9 +34,22 @@ input JobInput {
   locationId: ID!
 }
 
+input UpdateJobInput {
+  title: String
+  description: String
+  salary: Int
+  experience: Int
+  deadline: String
+  headcount: Int
+  jobTypeId: ID
+  categoryId: ID
+  locationId: ID
+}
+
 type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
+  getMaintainJobsByCompany(companyId: ID!): [Job!]!
 }
 
 type Mutation {
