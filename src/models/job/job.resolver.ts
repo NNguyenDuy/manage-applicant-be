@@ -18,21 +18,36 @@ export const jobResolvers = {
     ): Promise<IJobDocument | null> => {
       return await jobController.getJobById(jobId)
     },
-    getAllJobs: async (_: any, { idDel }: { idDel: boolean }): Promise<IJobDocument[]> => { 
-      return await jobController.getAllJobs(idDel);
+    getAllJobs: async (_: any): Promise<IJobDocument[]> => {
+      return await jobController.getAllJobs()
     },
-    getJobsWithFilters: async (
-      _: any,
-      { Jtitle, Jlocation, JCategory, idDel }: { Jtitle: string; Jlocation: string; JCategory: string; idDel: boolean }
-    ): Promise<IJobDocument[]> => {
-      return await jobController.getJobsWithFilters(Jtitle, Jlocation, JCategory, idDel);
-    },   
     getMaintainJobsByCompany: async (
       _: any,
       { companyId }: { companyId: string }
     ): Promise<IJobDocument[]> => {
       return await jobController.getMaintainJobsByCompany(companyId)
-    }, 
+    },
+    getJobsWithFilters: async (
+      _: any,
+      {
+        Jtitle,
+        Jlocation,
+        JCategory,
+        idDel,
+      }: {
+        Jtitle: string
+        Jlocation: string
+        JCategory: string
+        idDel: boolean
+      }
+    ): Promise<IJobDocument[]> => {
+      return await jobController.getJobsWithFilters(
+        Jtitle,
+        Jlocation,
+        JCategory,
+        idDel
+      )
+    },
   },
   Job: {
     location: async (parent: I_Job): Promise<I_Location | null> => {
@@ -73,7 +88,7 @@ export const jobResolvers = {
       _: any,
       { jobId, isDel }: { jobId: string; isDel: boolean }
     ): Promise<IJobDocument | null> => {
-      return await jobController.updateIsDel(jobId, isDel);
+      return await jobController.updateIsDel(jobId, isDel)
     },
     deleteJob: async (_: any, { jobId }: { jobId: string }): Promise<void> => {
       await jobController.deleteJob(jobId)
