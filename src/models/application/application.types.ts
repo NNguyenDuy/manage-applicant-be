@@ -10,7 +10,7 @@ export enum E_ApplicationStatus {
 export enum E_EvaluationAI {
   NONE = 'none',
   PRIORITY = 'priority',
-  POTENTIAl = 'potential',
+  POTENTIAL = 'potential',
   SUITABLE = 'suitable',
   NOT_SUITABLE = 'not_suitable',
 }

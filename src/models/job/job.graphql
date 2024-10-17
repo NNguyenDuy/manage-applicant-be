@@ -49,11 +49,16 @@ input UpdateJobInput {
 type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
+<<<<<<< HEAD
+=======
+  getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String, idDel: Boolean): [Job!]!
+>>>>>>> develop
   getMaintainJobsByCompany(companyId: ID!): [Job!]!
 }
 
 type Mutation {
   createJob(jobData: JobInput!): Job!
   updateJob(jobId: ID!, jobData: JobInput!): Job
+  updateIsDel(jobId: ID!, isDel: Boolean): Job
   deleteJob(jobId: ID!): Boolean!
 }
