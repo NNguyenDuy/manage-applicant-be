@@ -22,16 +22,16 @@ type Job {
 }
 
 input JobInput {
-  title: String!
-  description: String!
-  salary: Float!
-  experience: Int!
-  deadline: Date!
-  headcount: Int!
-  companyId: ID!
-  jobTypeId: ID!
+  title: String
+  description: String
+  salary: Float
+  experience: Int
+  deadline: Date
+  headcount: Int
+  companyId: ID
+  jobTypeId: ID
   categoryId: ID
-  locationId: ID!
+  locationId: ID
 }
 
 input UpdateJobInput {
