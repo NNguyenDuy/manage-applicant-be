@@ -5,7 +5,7 @@ type Job {
   title: String!
   description: String!
   salary: Float!
-  experience: Int!
+  experience: Int
   deadline: Date!
   createdAt: Date!
   updatedAt: Date!
@@ -49,11 +49,13 @@ input UpdateJobInput {
 type Query {
   getJobById(jobId: ID!): Job
   getAllJobs(idDel: Boolean!): [Job!]!
-<<<<<<< HEAD
-=======
-  getJobsWithFilters(Jtitle: String, Jlocation: String, JCategory: String, idDel: Boolean): [Job!]!
->>>>>>> develop
-  getMaintainJobsByCompany(companyId: ID!): [Job!]!
+  getJobsWithFilters(
+    Jtitle: String
+    Jlocation: String
+    JCategory: String
+    idDel: Boolean
+  ): [Job!]!
+  getMaintainJobsByCompany(companyId: ID): [Job]
 }
 
 type Mutation {
