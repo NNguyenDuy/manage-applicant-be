@@ -67,24 +67,26 @@ export const applicationController = {
   ): Promise<IApplicationDocument | null> => {
     return await ApplicationModel.findOne({ _id: id, isDel: false })
   },
-  getApplicationsByJob: async (jobId: string): Promise<IApplicationDocument[] | []> => {
-    const applications = await ApplicationModel.find({ jobId, isDel: false });
+  getApplicationsByJob: async (
+    jobId: string
+  ): Promise<IApplicationDocument[] | []> => {
+    const applications = await ApplicationModel.find({ jobId, isDel: false })
     if (!applications || applications.length === 0) {
-      return [];
+      return []
     }
-  
-    return applications;
+
+    return applications
   },
-  
+
   createApplication: async (
     application: I_Application
   ): Promise<IApplicationDocument | null> => {
-    const job = await ApplicationModel.findOne({ jobId: application.jobId })
-    const candidateProfile = await ApplicationModel.findOne({
+    const existingApplication = await ApplicationModel.findOne({
+      jobId: application.jobId,
       candidateProfileId: application.candidateProfileId,
     })
 
-    if (job && candidateProfile) {
+    if (existingApplication) {
       return null
     } else {
       const res = await JobModel.findById(application.jobId)
@@ -120,10 +122,10 @@ export const applicationController = {
     newStatus: E_ApplicationStatus
   ): Promise<IApplicationDocument | null> => {
     return await ApplicationModel.findOneAndUpdate(
-      { _id: applicationId },               
-      { status: newStatus },                
-      { new: true }                        
-    );
+      { _id: applicationId },
+      { status: newStatus },
+      { new: true }
+    )
   },
   updateApplication: async (
     id: string,
@@ -133,7 +135,7 @@ export const applicationController = {
       new: true,
     })
   },
-  
+
   deleteApplication: async (
     id: string
   ): Promise<IApplicationDocument | null> => {
