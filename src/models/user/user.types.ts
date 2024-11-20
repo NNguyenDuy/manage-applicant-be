@@ -11,7 +11,7 @@ export interface I_User {
   email: string
   password: string
   role: E_Role
-  candidateId?: mongoose.Types.ObjectId
-  companyId?: mongoose.Types.ObjectId
+  candidateId?: mongoose.Types.ObjectId 
+  companyId?: mongoose.Types.ObjectId | null
   idDel?: boolean
 }

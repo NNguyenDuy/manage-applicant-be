@@ -7,13 +7,13 @@ export interface ICandidateProfileDocument
 
 const CandidateProfileSchema = new Schema<ICandidateProfileDocument>({
   resume: {
-    cvLinks: [{ type: String, required: true }],
+    cvLinks: [{ type: String, required: true , default:[]}],
     skills: [
       {
-        name: { type: String, required: true },
-        experience: { type: Number, required: true },
+        name: { type: String, required: true, default:null },
+        experience: { type: Number, required: true, default:null },
       },
-    ],
+    ]
   },
   idDel: { type: Boolean, default: false },
 })

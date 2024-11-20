@@ -4,6 +4,7 @@ import { E_Role, userController } from './../user'
 import { IUserDocument, UserModel } from '../user/user.model'
 import { CompanyModel, ICompanyDocument } from '../company/company.model'
 import { ILocationDocument, LocationModel } from '../location/location.model'
+import { ICandidateProfileDocument, CandidateProfileModel } from '../candidate-profile/candidate-profile.model'
 
 export const authResolvers = {
   Mutation: {
@@ -57,6 +58,7 @@ export const authResolvers = {
       await user.save()
 
       if (role === E_Role.RECRUITER && company) {
+        user.companyId = null;
         let location: ILocationDocument | undefined
 
         if (company.location) {
@@ -70,8 +72,23 @@ export const authResolvers = {
             name: company.name,
             locationId: location ? location._id : undefined,
           })) as ICompanyDocument
-
+          
         await user.save()
+      }
+      else
+      {
+        // Khởi tạo profile chưa có thông tin
+        let candidateProfile: ICandidateProfileDocument = new CandidateProfileModel(
+          {
+            idDel: false,
+          }
+        )
+        // Lưu profile vừa tạo
+        await candidateProfile.save();
+
+        // Cho id của candidate vừa tạo = id của profile vừa tạo 
+        user.candidateId = candidateProfile.id;
+        await user.save();
       }
 
       const token = jwt.sign(

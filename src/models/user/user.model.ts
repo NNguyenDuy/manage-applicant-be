@@ -15,7 +15,7 @@ const UserSchema = new Schema<IUserDocument>({
     enum: Object.values(E_Role),
     default: E_Role.CANDIDATE,
   },
-  candidateId: { type: Schema.Types.ObjectId, ref: 'CandidateProfile' },
+  candidateId: { type: Schema.Types.ObjectId, ref: 'CandidateProfile'},
   companyId: { type: Schema.Types.ObjectId, ref: 'Company' },
   idDel: { type: Boolean, default: false },
 })
