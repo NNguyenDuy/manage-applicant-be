@@ -15,7 +15,7 @@ const CandidateProfileSchema = new Schema<ICandidateProfileDocument>({
       },
     ]
   },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const CandidateProfileModel = model<ICandidateProfileDocument>(

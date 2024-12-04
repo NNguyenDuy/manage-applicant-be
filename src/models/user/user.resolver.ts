@@ -45,13 +45,13 @@ export const userResolvers = {
         email,
         password,
         role,
-        idDel,
+        isDel,
       }: {
         fullName?: string
         email: string
         password: string
         role: E_Role
-        idDel?: boolean
+        isDel?: boolean
       }
     ): Promise<{ message: string; data: I_User | null }> => {
       return await userController.createUser({
@@ -59,7 +59,7 @@ export const userResolvers = {
         email,
         password,
         role,
-        idDel,
+        isDel,
       })
     },
     updateUser: async (
@@ -70,14 +70,14 @@ export const userResolvers = {
         email,
         password,
         role,
-        idDel,
+        isDel,
       }: {
         id: string
         fullName?: string
         email?: string
         password?: string
         role?: E_Role
-        idDel?: boolean
+        isDel?: boolean
       }
     ): Promise<I_User | null> => {
       return await userController.updateUser(id, {
@@ -85,7 +85,7 @@ export const userResolvers = {
         email,
         password,
         role,
-        idDel,
+        isDel,
       })
     },
     deleteUser: async (

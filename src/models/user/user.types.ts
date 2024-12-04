@@ -13,5 +13,5 @@ export interface I_User {
   role: E_Role
   candidateId?: mongoose.Types.ObjectId 
   companyId?: mongoose.Types.ObjectId | null
-  idDel?: boolean
+  isDel?: boolean
 }

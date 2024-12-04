@@ -17,7 +17,7 @@ const UserSchema = new Schema<IUserDocument>({
   },
   candidateId: { type: Schema.Types.ObjectId, ref: 'CandidateProfile'},
   companyId: { type: Schema.Types.ObjectId, ref: 'Company' },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 UserSchema.pre('save', async function (next) {

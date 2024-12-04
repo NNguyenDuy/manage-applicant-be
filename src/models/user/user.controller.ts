@@ -56,7 +56,7 @@ export const userController = {
   deleteUser: async (id: string): Promise<I_User | null> => {
     return await UserModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     ).select('-password')
   },

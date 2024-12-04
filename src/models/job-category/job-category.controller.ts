@@ -31,7 +31,7 @@ export const jobCategoryController = {
   ): Promise<IJobCategoryDocument | null> => {
     return await JobCategoryModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     )
   },

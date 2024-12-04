@@ -10,10 +10,10 @@ export const companyResolvers = {
       _: any,
       { companyId }: { companyId: string }
     ): Promise<ICompanyDocument | null> => {
-      return await CompanyModel.findById(companyId).where({ idDel: false })
+      return await CompanyModel.findById(companyId).where({ isDel: false })
     },
     getAllCompanies: async (): Promise<ICompanyDocument[]> => {
-      return await CompanyModel.find({ idDel: false })
+      return await CompanyModel.find({ isDel: false })
     },
   },
   Company: {
@@ -44,7 +44,7 @@ export const companyResolvers = {
       _: any,
       { companyId }: { companyId: string }
     ): Promise<boolean> => {
-      await CompanyModel.findByIdAndUpdate(companyId, { idDel: true })
+      await CompanyModel.findByIdAndUpdate(companyId, { isDel: true })
       return true
     },
   },

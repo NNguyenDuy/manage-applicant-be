@@ -7,7 +7,7 @@ type Company {
   size: Int
   field: String
   locationId: ID
-  idDel: Boolean!
+  isDel: Boolean!
   location: Location
 }
 

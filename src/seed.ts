@@ -77,7 +77,7 @@ export async function seedData() {
             size: 100,
             field: 'Công nghệ',
             locationId: locations[0]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             name: 'Công ty ABC',
@@ -85,7 +85,7 @@ export async function seedData() {
             size: 150,
             field: 'Phần mềm',
             locationId: locations[1]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             name: 'Công ty DEF',
@@ -93,7 +93,7 @@ export async function seedData() {
             size: 200,
             field: 'Tài chính',
             locationId: locations[2]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             name: 'Công ty GHI',
@@ -101,7 +101,7 @@ export async function seedData() {
             size: 300,
             field: 'Dịch vụ',
             locationId: locations[3]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             name: 'Công ty JKL',
@@ -109,7 +109,7 @@ export async function seedData() {
             size: 500,
             field: 'Sản xuất',
             locationId: locations[4]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             name: 'Công ty MNO',
@@ -117,7 +117,7 @@ export async function seedData() {
             size: 1000,
             field: 'Thương mại',
             locationId: locations[5]._id,
-            idDel: false,
+            isDel: false,
         },
     ]);
 
@@ -131,7 +131,7 @@ export async function seedData() {
                     { name: 'Node.js', experience: 2 },
                 ],
             },
-            idDel: false,
+            isDel: false,
         },
         {
             resume: {
@@ -141,7 +141,7 @@ export async function seedData() {
                     { name: 'Django', experience: 3 },
                 ],
             },
-            idDel: false,
+            isDel: false,
         },
         {
             resume: {
@@ -151,7 +151,7 @@ export async function seedData() {
                     { name: 'Next.js', experience: 1 },
                 ],
             },
-            idDel: false,
+            isDel: false,
         },
         {
             resume: {
@@ -161,7 +161,7 @@ export async function seedData() {
                     { name: '.NET', experience: 3 },
                 ],
             },
-            idDel: false,
+            isDel: false,
         },
         {
             resume: {
@@ -171,7 +171,7 @@ export async function seedData() {
                     { name: 'Laravel', experience: 2 },
                 ],
             },
-            idDel: false,
+            isDel: false,
         },
     ]);
 
@@ -304,7 +304,7 @@ export async function seedData() {
             jobTypeId: jobTypes[0]._id,
             categoryId: jobCategories[0]._id,
             locationId: locations[0]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'DevOps Engineer',
@@ -344,7 +344,7 @@ export async function seedData() {
             jobTypeId: jobTypes[0]._id,
             categoryId: jobCategories[0]._id,
             locationId: locations[0]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'UI/UX Designer',
@@ -384,7 +384,7 @@ export async function seedData() {
             jobTypeId: jobTypes[1]._id,
             categoryId: jobCategories[1]._id,
             locationId: locations[1]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Data Scientist',
@@ -424,7 +424,7 @@ export async function seedData() {
             jobTypeId: jobTypes[1]._id,
             categoryId: jobCategories[2]._id,
             locationId: locations[1]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Chuyên viên dịch vụ khách hàng',
@@ -462,7 +462,7 @@ export async function seedData() {
             jobTypeId: jobTypes[2]._id,
             categoryId: jobCategories[3]._id,
             locationId: locations[2]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Quản lý dự án',
@@ -500,7 +500,7 @@ export async function seedData() {
             jobTypeId: jobTypes[2]._id,
             categoryId: jobCategories[2]._id,
             locationId: locations[2]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Quản đốc sản xuất',
@@ -538,7 +538,7 @@ export async function seedData() {
             jobTypeId: jobTypes[0]._id,
             categoryId: jobCategories[4]._id,
             locationId: locations[3]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Nhân viên kho vận',
@@ -576,7 +576,7 @@ export async function seedData() {
             jobTypeId: jobTypes[0]._id,
             categoryId: jobCategories[4]._id,
             locationId: locations[3]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Trưởng nhóm bán hàng',
@@ -614,7 +614,7 @@ export async function seedData() {
             jobTypeId: jobTypes[1]._id,
             categoryId: jobCategories[5]._id,
             locationId: locations[4]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Nhân viên tiếp thị',
@@ -652,7 +652,7 @@ export async function seedData() {
             jobTypeId: jobTypes[3]._id,
             categoryId: jobCategories[6]._id,
             locationId: locations[4]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Chuyên viên chăm sóc khách hàng',
@@ -690,7 +690,7 @@ export async function seedData() {
             jobTypeId: jobTypes[2]._id,
             categoryId: jobCategories[6]._id,
             locationId: locations[5]._id,
-            idDel: false,
+            isDel: false,
         },
         {
             title: 'Nhân viên bán hàng trực tuyến',
@@ -728,7 +728,7 @@ export async function seedData() {
             jobTypeId: jobTypes[3]._id,
             categoryId: jobCategories[5]._id,
             locationId: locations[5]._id,
-            idDel: false,
+            isDel: false,
         },
     ]);
 

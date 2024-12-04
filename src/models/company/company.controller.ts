@@ -25,7 +25,7 @@ export const companyController = {
   deleteCompany: async (id: string): Promise<ICompanyDocument | null> => {
     return await CompanyModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     )
   },

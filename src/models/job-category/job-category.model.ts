@@ -5,7 +5,7 @@ export interface IJobCategoryDocument extends I_JobCategory, Document {}
 
 const JobCategorySchema = new Schema<IJobCategoryDocument>({
   name: { type: String, required: true, unique: true },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const JobCategoryModel = model<IJobCategoryDocument>(

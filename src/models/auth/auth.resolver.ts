@@ -80,7 +80,7 @@ export const authResolvers = {
         // Khởi tạo profile chưa có thông tin
         let candidateProfile: ICandidateProfileDocument = new CandidateProfileModel(
           {
-            idDel: false,
+            isDel: false,
           }
         )
         // Lưu profile vừa tạo

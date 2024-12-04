@@ -16,7 +16,7 @@ const JobSchema = new Schema<IJobDocument>({
   jobTypeId: { type: Schema.Types.ObjectId, ref: 'JobType', required: true },
   categoryId: { type: Schema.Types.ObjectId, ref: 'JobCategory' },
   locationId: { type: Schema.Types.ObjectId, ref: 'Location', required: true },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const JobModel = model<IJobDocument>('Job', JobSchema)

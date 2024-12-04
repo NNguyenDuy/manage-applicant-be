@@ -27,7 +27,7 @@ export const candidateProfileController = {
   ): Promise<ICandidateProfileDocument | null> => {
     return await CandidateProfileModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     )
   },

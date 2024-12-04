@@ -25,7 +25,7 @@ export const jobTypeController = {
   deleteJobType: async (id: string): Promise<IJobTypeDocument | null> => {
     return await JobTypeModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     )
   },

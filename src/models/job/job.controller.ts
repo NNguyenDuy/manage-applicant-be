@@ -21,7 +21,7 @@ export const jobController = {
     Jtitle: string,
     Jlocation: string,
     JCategory: string,
-    idDel: boolean
+    isDel: boolean
   ): Promise<IJobDocument[]> => {
     const query: any = {}
 
@@ -47,14 +47,14 @@ export const jobController = {
         query.categoryId = foundJobCategory._id
       }
     }
-    query.idDel = idDel
+    query.isDel = isDel
 
     return await JobModel.find(query)
   },
   getMaintainJobsByCompany: async (
     companyId: string
   ): Promise<IJobDocument[]> => {
-    return await JobModel.find({ companyId, idDel: false })
+    return await JobModel.find({ companyId, isDel: false })
   },
   updateJob: async (
     jobId: string,
@@ -70,12 +70,12 @@ export const jobController = {
   ): Promise<IJobDocument | null> => {
     return await JobModel.findOneAndUpdate(
       { _id: jobId },
-      { idDel: isDel },
+      { isDel: isDel },
       { new: true }
     )
   },
 
   deleteJob: async (jobId: string): Promise<void> => {
-    await JobModel.updateOne({ _id: jobId }, { idDel: true })
+    await JobModel.updateOne({ _id: jobId }, { isDel: true })
   },
 }

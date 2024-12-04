@@ -25,7 +25,7 @@ export const locationController = {
   deleteLocation: async (id: string): Promise<ILocationDocument | null> => {
     return await LocationModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
     )
   },

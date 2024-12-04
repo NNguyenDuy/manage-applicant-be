@@ -11,7 +11,7 @@ type User {
   role: E_Role!
   candidateId: ID
   companyId: ID
-  idDel: Boolean!
+  isDel: Boolean!
   candidate: CandidateProfile
   company: Company
 }
@@ -35,7 +35,7 @@ type Mutation {
     role: E_Role!
     candidateId: ID
     companyId: ID
-    idDel: Boolean
+    isDel: Boolean
   ): UserResponse!
 
   updateUser(
@@ -46,7 +46,7 @@ type Mutation {
     role: E_Role
     candidateId: ID
     companyId: ID
-    idDel: Boolean
+    isDel: Boolean
   ): User
 
   deleteUser(id: ID!): User
