@@ -13,5 +13,5 @@ export interface I_Job {
   jobTypeId: mongoose.Types.ObjectId
   categoryId?: mongoose.Types.ObjectId
   locationId: mongoose.Types.ObjectId
-  idDel?: boolean 
+  isDel?: boolean 
 }

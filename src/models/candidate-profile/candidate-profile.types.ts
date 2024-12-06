@@ -10,5 +10,5 @@ export interface I_Resume {
 
 export interface I_CandidateProfile {
   resume: I_Resume
-  idDel?: boolean
+  isDel?: boolean
 }

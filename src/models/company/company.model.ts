@@ -9,7 +9,7 @@ const CompanySchema = new Schema<ICompanyDocument>({
   size: { type: Number },
   field: { type: String },
   locationId: { type: Schema.Types.ObjectId, ref: 'Location' },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const CompanyModel = model<ICompanyDocument>('Company', CompanySchema)

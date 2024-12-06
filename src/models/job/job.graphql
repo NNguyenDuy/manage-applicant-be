@@ -14,7 +14,7 @@ type Job {
   jobTypeId: ID!
   categoryId: ID
   locationId: ID!
-  idDel: Boolean!
+  isDel: Boolean!
   company: Company!
   jobType: JobType!
   category: JobCategory
@@ -48,12 +48,12 @@ input UpdateJobInput {
 
 type Query {
   getJobById(jobId: ID!): Job
-  getAllJobs(idDel: Boolean!): [Job!]!
+  getAllJobs(isDel: Boolean!): [Job!]!
   getJobsWithFilters(
     Jtitle: String
     Jlocation: String
     JCategory: String
-    idDel: Boolean
+    isDel: Boolean
   ): [Job!]!
   getMaintainJobsByCompany(companyId: ID): [Job]
 }

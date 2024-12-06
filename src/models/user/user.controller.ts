@@ -44,20 +44,18 @@ export const userController = {
     }
   },
 
-  updateUser: async (
-    id: string,
-    user: Partial<I_User>
-  ): Promise<I_User | null> => {
-    return await UserModel.findByIdAndUpdate(id, user, { new: true }).select(
-      '-password'
-    )
+  updateUser: async (id: string, user: Partial<I_User>): Promise<I_User | null> => {
+    const updatedUser = await UserModel.findByIdAndUpdate(id, user, { new: true });
+    return updatedUser ? updatedUser.toObject() : null;
   },
+  
 
   deleteUser: async (id: string): Promise<I_User | null> => {
-    return await UserModel.findByIdAndUpdate(
+    const user = await UserModel.findByIdAndUpdate(
       id,
-      { idDel: true },
+      { isDel: true },
       { new: true }
-    ).select('-password')
-  },
+    );
+    return user;
+  },  
 }

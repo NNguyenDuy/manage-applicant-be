@@ -1,7 +1,7 @@
 type JobCategory {
   _id: ID!
   name: String!
-  idDel: Boolean!
+  isDel: Boolean!
 }
 
 type Query {
@@ -17,5 +17,5 @@ type Mutation {
 
 input JobCategoryInput {
   name: String!
-  idDel: Boolean
+  isDel: Boolean
 }

@@ -9,6 +9,9 @@ import { JobModel } from '../job'
 import pdf from 'pdf-parse'
 import fs from 'fs/promises'
 import path from 'path'
+import { sendApprovalEmail } from './../../shared/constants/emailService';
+import { CandidateProfileModel } from '../candidate-profile/candidate-profile.model'
+import { UserModel } from '../user'
 
 async function pdfToText(fileCV: string): Promise<string> {
   try {
@@ -119,14 +122,36 @@ export const applicationController = {
   },
   updateApplicationStatus: async (
     applicationId: string,
-    newStatus: E_ApplicationStatus
+    newStatus: string
   ): Promise<IApplicationDocument | null> => {
-    return await ApplicationModel.findOneAndUpdate(
+    const application = await ApplicationModel.findOneAndUpdate(
       { _id: applicationId },
       { status: newStatus },
       { new: true }
-    )
-  },
+    );
+  
+    if (application) {
+      try {
+        // Lấy thông tin ứng viên
+        const candidateProfile = await CandidateProfileModel.findById(application.candidateProfileId);
+        if (candidateProfile) {
+          const { _id } = candidateProfile;
+          // Tìm người dùng (user) liên kết với ứng viên
+          const USER = await UserModel.find({ candidateId: _id });
+          const { email, fullName } = USER[0]; // Lấy thông tin người dùng đầu tiên
+          
+          // Gửi email thông báo trạng thái
+          await sendApprovalEmail(email, newStatus); // Gửi email về email ứng viên
+          console.log(`Email thông báo đã gửi cho ${fullName} với trạng thái: ${newStatus}`);
+        }
+      } catch (error) {
+        console.error('Lỗi khi gửi email thông báo trạng thái:', error);
+      }
+    }
+  
+    return application;
+  }
+  ,
   updateApplication: async (
     id: string,
     application: Partial<I_Application>

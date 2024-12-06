@@ -7,7 +7,7 @@ const LocationSchema = new Schema<ILocationDocument>({
   address: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const LocationModel = model<ILocationDocument>(

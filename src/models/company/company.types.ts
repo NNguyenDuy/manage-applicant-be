@@ -6,5 +6,5 @@ export interface I_Company {
   size?: number
   field?: string
   locationId?: mongoose.Types.ObjectId
-  idDel?: boolean
+  isDel?: boolean
 }

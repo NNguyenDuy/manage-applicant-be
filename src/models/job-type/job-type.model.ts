@@ -5,7 +5,7 @@ export interface IJobTypeDocument extends I_JobType, Document {}
 
 const JobTypeSchema = new Schema<IJobTypeDocument>({
   type: { type: String, required: true, unique: true },
-  idDel: { type: Boolean, default: false },
+  isDel: { type: Boolean, default: false },
 })
 
 export const JobTypeModel = model<IJobTypeDocument>('JobType', JobTypeSchema)

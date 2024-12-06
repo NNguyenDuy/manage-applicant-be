@@ -21,7 +21,7 @@ type Resume {
 type CandidateProfile {
   id: ID!
   resume: Resume!
-  idDel: Boolean
+  isDel: Boolean
 }
 
 type Query {

@@ -33,19 +33,19 @@ export const jobResolvers = {
         Jtitle,
         Jlocation,
         JCategory,
-        idDel,
+        isDel,
       }: {
         Jtitle: string
         Jlocation: string
         JCategory: string
-        idDel: boolean
+        isDel: boolean
       }
     ): Promise<IJobDocument[]> => {
       return await jobController.getJobsWithFilters(
         Jtitle,
         Jlocation,
         JCategory,
-        idDel
+        isDel
       )
     },
   },

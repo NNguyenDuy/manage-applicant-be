@@ -1,7 +1,7 @@
 type JobType {
   _id: ID!
   type: String!
-  idDel: Boolean!
+  isDel: Boolean!
 }
 
 type Query {
@@ -17,5 +17,5 @@ type Mutation {
 
 input JobTypeInput {
   type: String!
-  idDel: Boolean
+  isDel: Boolean
 }
