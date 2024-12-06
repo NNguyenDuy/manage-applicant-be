@@ -9,7 +9,7 @@ import { JobModel } from '../job'
 import pdf from 'pdf-parse'
 import fs from 'fs/promises'
 import path from 'path'
-import { sendApprovalEmail } from './../../shared/constants/emailService';
+import { sendNotificationEmail } from './../../shared/constants/emailService';
 import { CandidateProfileModel } from '../candidate-profile/candidate-profile.model'
 import { UserModel } from '../user'
 
@@ -141,8 +141,13 @@ export const applicationController = {
           const { email, fullName } = USER[0]; // Lấy thông tin người dùng đầu tiên
           
           // Gửi email thông báo trạng thái
-          await sendApprovalEmail(email, newStatus); // Gửi email về email ứng viên
-          console.log(`Email thông báo đã gửi cho ${fullName} với trạng thái: ${newStatus}`);
+          if (email && fullName) {
+            const status: E_ApplicationStatus = newStatus as E_ApplicationStatus;
+            await sendNotificationEmail(email, fullName, status);
+            console.log(`Email thông báo đã gửi cho ${fullName} với trạng thái: ${status}`);
+          } else {
+            console.error('Email hoặc tên đầy đủ không hợp lệ.');
+          }
         }
       } catch (error) {
         console.error('Lỗi khi gửi email thông báo trạng thái:', error);
